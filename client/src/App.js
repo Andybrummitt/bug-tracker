@@ -1,27 +1,44 @@
+import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import { createContext, useState } from 'react';
-
-export const UserContext = createContext(null);
+import LoginTeam from "./components/Login/LoginTeam";
+import LoginUser from "./components/Login/LoginUser";
+import PersistLogin from "./components/PersistLogin";
+import RegisterTeam from "./components/Register/RegisterTeam";
+import RegisterUser from "./components/Register/RegisterUser";
+import RequireTeamAuth from "./components/RequireTeamAuth";
+import RequireUserAuth from "./components/RequireUserAuth";
+import AuthProvider, { AuthContext } from "./context/AuthProvider";
 
 function App() {
-
-  const [ user, setUser ] = useState(null);
+  const { auth, setAuth } = useContext(AuthContext);
 
   return (
     <div className="App">
-      <UserContext.Provider value={user}>
+      <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Dashboard />} />
+            {/* TEAM PRIVATE ROUTES */}
+
+            <Route element={<RequireTeamAuth />}>
+              <Route path="/login" element={<LoginUser />} />
+              <Route path="/register" element={<RegisterUser />} />
+            </Route>
+
+            {/* USER PRIVATE ROUTES */}
+            <Route element={<PersistLogin />}>
+              <Route element={<RequireUserAuth />} />
+                <Route path="/" element={<Dashboard />} />
+              <Route />
+            </Route>
+
+            {/* PUBLIC ROUTES */}
+            <Route path="/team/register" element={<RegisterTeam />} />
+            <Route path="/team/login" element={<LoginTeam />} />
           </Routes>
         </BrowserRouter>
-      </UserContext.Provider>
+      </AuthProvider>
     </div>
   );
 }
