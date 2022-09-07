@@ -93,7 +93,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    res.json({ accessToken });
+    res.json({ accessToken, username });
 
 });
 
@@ -119,6 +119,9 @@ const refresh = (req, res, next) => {
                 return next(ApiError.unauthorized('Unauthorized'));
             }
 
+            username = user.username;
+            userTeam = user.team;
+
             const accessToken = jwt.sign(
                 { 
                     "UserInfo": {
@@ -129,8 +132,9 @@ const refresh = (req, res, next) => {
                 process.env.USER_ACCESS_TOKEN_SECRET,
                 { expiresIn: '20s' }
             );
+            console.log(accessToken)
 
-            res.json({ accessToken })
+            res.json({ accessToken, username: user.username, userTeam: user.team })
         })
 
     )

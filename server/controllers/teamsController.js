@@ -70,7 +70,7 @@ const loginTeam = asyncHandler(async (req, res, next) => {
         { expiresIn: '30m' }
     );
 
-    res.json({ accessToken })
+    res.json({ accessToken, teamName })
 
 })
 

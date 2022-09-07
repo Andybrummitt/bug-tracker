@@ -1,15 +1,18 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import { setUserTeam } from "../../redux/user";
 
 const RegisterTeam = () => {
-  const { auth, setAuth } = useContext(AuthContext)
+  const { auth, setAuth } = useContext(AuthContext);
   const [teamName, setTeamName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const passwordIsValid = (password) => {
     if (password.length >= 6 && password.length <= 15) {
@@ -19,8 +22,8 @@ const RegisterTeam = () => {
   };
 
   useEffect(() => {
-    if(auth.teamAccessToken) navigate('/login');
-  }, [auth])
+    if (auth.teamAccessToken) navigate("/login");
+  }, [auth]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,13 +37,16 @@ const RegisterTeam = () => {
       return;
     }
     axios
-      .post(`/api/auth/team/register`, JSON.stringify({ teamName, password }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
+      .post(`/api/auth/team/register`, JSON.stringify({ teamName, password }), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       })
       .then((res) => {
-        setAuth(auth => ({...auth, teamAccessToken: res.data?.accessToken}));
+        dispatch(setUserTeam(res.data?.teamName));
+        setAuth((auth) => ({
+          ...auth,
+          teamAccessToken: res.data?.accessToken,
+        }));
       })
       .catch((err) => {
         console.log(err);

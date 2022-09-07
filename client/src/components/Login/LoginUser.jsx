@@ -1,54 +1,50 @@
-import React, { useContext, useState } from "react";
-import { useEffect } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-import useLogout from "../../hooks/useLogout";
-import axios from "axios";
+import Navbar from "../Navbar/Navbar";
+import { setUser } from "../../redux/user";
 
 const LoginUser = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [ error, setError ] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const logout = useLogout();
   const { auth, setAuth } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(auth.userAccessToken) navigate('/');
-  }, [auth])
+    if (auth.userAccessToken) navigate("/");
+  }, [auth]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
     axios
-      .post(
-        `/api/auth/user/login`,
-        JSON.stringify({ username, password }),
-          {
-            headers: {
-              'Authorization': `Bearer ${auth.teamAccessToken}`,
-              'Content-Type': "application/json",
-            },
-            withCredentials: true,
-          }
-        )
+      .post(`/api/auth/user/login`, JSON.stringify({ username, password }), {
+        headers: {
+          Authorization: `Bearer ${auth.teamAccessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
       .then((res) => {
-        setAuth(auth => ({...auth, userAccessToken: res.data?.accessToken}));
+        dispatch(setUser(res.data?.username));
+        setAuth((auth) => ({
+          ...auth,
+          userAccessToken: res.data?.accessToken,
+        }));
       })
       .catch((err) => {
         console.log(err);
         setError(err.response.data);
       });
-  }
-
-  const signOut = async () => {
-    await logout();
-    navigate('/team/login')
-  } 
+  };
 
   return (
     <div>
-      <button onClick={signOut}>Logout of Team</button>
+      <Navbar />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">

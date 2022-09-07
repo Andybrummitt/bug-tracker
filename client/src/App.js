@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import Dashboard from "./components/Dashboard/Dashboard";
 import LoginTeam from "./components/Login/LoginTeam";
 import LoginUser from "./components/Login/LoginUser";
@@ -28,9 +27,10 @@ function App() {
 
             {/* USER PRIVATE ROUTES */}
             <Route element={<PersistLogin />}>
-              <Route element={<RequireUserAuth />} />
+              <Route element={<RequireUserAuth />}>
                 <Route path="/" element={<Dashboard />} />
-              <Route />
+                {/* <Route path="/tickets" element={<Tickets />} /> */}
+              </Route>
             </Route>
 
             {/* PUBLIC ROUTES */}

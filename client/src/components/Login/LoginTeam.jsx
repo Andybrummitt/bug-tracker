@@ -2,11 +2,14 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import { useDispatch } from 'react-redux';
+import { setUserTeam } from "../../redux/user"; 
 
 const LoginTeam = () => {
   const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const from = location.state?.from?.pathname || "/";
 
   const [teamName, setTeamName] = useState("");
@@ -28,6 +31,7 @@ const LoginTeam = () => {
         withCredentials: true
       })
       .then((res) => {
+        dispatch(setUserTeam(res.data?.teamName))
         setAuth(auth => ({...auth, teamAccessToken: res.data?.accessToken}));
       })
       .catch((err) => {
