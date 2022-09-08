@@ -1,23 +1,29 @@
-import React from 'react'
-import { useContext } from 'react'
-import { useEffect } from 'react'
-import { AuthContext } from '../../context/AuthProvider'
-import useLogout from '../../hooks/useLogout'
-import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+import useLogout from "../../hooks/useLogout";
+import Projects from "../Projects/Projects";
+import styles from "./dashboard.module.scss";
 
 const Dashboard = () => {
   const logout = useLogout();
   const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
-  console.log(JSON.stringify(auth))
+
+  useEffect(() => {
+    if(!auth.userAccessToken){
+      logout();
+      navigate('/team/login');
+    }
+  }, [auth])
 
   return (
-    <>
-      <Navbar />
-     <div>Dashboard</div>
-    </>
-  )
-}
+    <main className={styles.main}>
+      <div>Dashboard</div>
+      <Projects />
+    </main>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

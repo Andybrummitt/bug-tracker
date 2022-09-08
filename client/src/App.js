@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
 import LoginTeam from "./components/Login/LoginTeam";
 import LoginUser from "./components/Login/LoginUser";
+import MobileNavbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import PersistLogin from "./components/PersistLogin";
 import RegisterTeam from "./components/Register/RegisterTeam";
 import RegisterUser from "./components/Register/RegisterUser";
@@ -11,12 +13,12 @@ import RequireUserAuth from "./components/RequireUserAuth";
 import AuthProvider, { AuthContext } from "./context/AuthProvider";
 
 function App() {
-  const { auth, setAuth } = useContext(AuthContext);
 
   return (
-    <div className="App">
+    <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh', height: '100%'}}>
       <AuthProvider>
         <BrowserRouter>
+            <Navbar />
           <Routes>
             {/* TEAM PRIVATE ROUTES */}
 

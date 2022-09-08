@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-import Navbar from "../Navbar/Navbar";
 import { setUser } from "../../redux/user";
 
 const LoginUser = () => {
@@ -44,7 +43,6 @@ const LoginUser = () => {
 
   return (
     <div>
-      <Navbar />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">

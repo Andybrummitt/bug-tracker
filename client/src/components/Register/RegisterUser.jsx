@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-import Navbar from "../Navbar/Navbar";
-import { useDispatch } from 'react-redux';
-import { setUser } from "../../redux/user"; 
+import { setUser } from "../../redux/user";
 
 const RegisterUser = () => {
   const [username, setUsername] = useState("");
@@ -12,15 +11,14 @@ const RegisterUser = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
   const { auth, setAuth } = useContext(AuthContext);
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    if(auth?.userAccessToken){
-      navigate('/');
-    } 
-  }, [auth])
+    if (auth?.userAccessToken) {
+      navigate("/");
+    }
+  }, [auth]);
 
   const passwordIsValid = (password) => {
     if (password.length >= 6 && password.length <= 15) {
@@ -41,20 +39,19 @@ const RegisterUser = () => {
       return;
     }
     axios
-      .post(
-        `/api/auth/user/register`,
-        JSON.stringify({ username, password }),
-          {
-            headers: {
-              'Authorization': `Bearer ${auth.teamAccessToken}`,
-              'Content-Type': "application/json",
-            },
-            withCredentials: true,
-          }
-        )
+      .post(`/api/auth/user/register`, JSON.stringify({ username, password }), {
+        headers: {
+          Authorization: `Bearer ${auth.teamAccessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
       .then((res) => {
         dispatch(setUser(res.data?.username));
-        setAuth(auth => ({...auth, userAccessToken: res.data?.accessToken}));
+        setAuth((auth) => ({
+          ...auth,
+          userAccessToken: res.data?.accessToken,
+        }));
       })
       .catch((err) => {
         console.log(err);
@@ -64,7 +61,6 @@ const RegisterUser = () => {
 
   return (
     <div>
-    <Navbar />
       <h1>Register User</h1>
       {error && <p className="text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>

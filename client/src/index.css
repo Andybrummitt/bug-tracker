@@ -1,9 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-ul {
+li {
+  list-style-type: none;
+}
+
+a {
   text-decoration: none;
 }
