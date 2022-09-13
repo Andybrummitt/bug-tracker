@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const Team = require("../models/Team");
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
+const User = require("../models/User");
+const Project = require("../models/Project");
 
 //  Register Team 
 //  POST /api/auth/team/register

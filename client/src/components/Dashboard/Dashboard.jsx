@@ -20,7 +20,6 @@ const Dashboard = () => {
 
   return (
     <main className={styles.main}>
-      <div>Dashboard</div>
       <Projects />
     </main>
   );

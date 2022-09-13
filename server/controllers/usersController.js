@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
+const Team = require("../models/Team");
 
 //  Register User
 //  POST /api/auth/user/register
@@ -26,8 +27,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const saltRounds = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
 
+    const team = await Team.findOne({name: teamName});
+
     //  CREATE USER AND STORE IN DB
-    const userObj = { username, team: teamName, password: hashedPass };
+    const userObj = { username, team: team._id, password: hashedPass };
 
     const user = await User.create(userObj);
 
@@ -42,8 +45,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
 const loginUser = asyncHandler(async (req, res, next) => {
     const { username, password } = req.body;
     const { teamName } = req;
-
-    console.log(username, password, teamName)
 
     //  CHECK VALUES FROM REQ.BODY
     if(!username || !password){
@@ -99,7 +100,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
 const refresh = (req, res, next) => {
     const cookies = req.cookies;
-
     if(!cookies?.jwt){
         return next(ApiError.unauthorized('Unauthorized'));
     }
@@ -110,6 +110,7 @@ const refresh = (req, res, next) => {
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         asyncHandler(async (error, decoded) => {
+            console.log('error from refresh controller ', error)
             if(error){
                 return next(ApiError.forbidden('Forbidden'))
             }
@@ -132,7 +133,6 @@ const refresh = (req, res, next) => {
                 process.env.USER_ACCESS_TOKEN_SECRET,
                 { expiresIn: '20s' }
             );
-            console.log(accessToken)
 
             res.json({ accessToken, username: user.username, userTeam: user.team })
         })
@@ -151,7 +151,6 @@ const logoutUser = (req, res) => {
         // sameSite: 'None'
      })
      res.json({ message: 'Cleared Cookie' });
-     res.sendStatus(204);
 }
 
 module.exports = {

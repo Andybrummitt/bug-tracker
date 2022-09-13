@@ -7,13 +7,14 @@ const teamSchema = new mongoose.Schema(
       required: true,
     },
     members: {
-      type: Array,
+      type: [String],
       required: true,
     },
     password: {
       type: String,
       required: true,
     },
+    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project', unique: true }],
   },
   {
     timeStamps: true,

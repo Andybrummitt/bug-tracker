@@ -8,6 +8,11 @@ const ticketSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true, 
+      ref: "Project"
+    },
     title: {
       type: String,
       required: true,
@@ -20,6 +25,12 @@ const ticketSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    type: {
+      type: String,
+      required: true,
+      enum: ["bug", "feature"],
+      default: "bug"
     },
     priority: {
       type: String,
