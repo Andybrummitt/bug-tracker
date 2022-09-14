@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Project from "./components/Projects/Project";
 import Dashboard from "./components/Dashboard/Dashboard";
 import LoginTeam from "./components/Login/LoginTeam";
 import LoginUser from "./components/Login/LoginUser";
-import MobileNavbar from "./components/Navbar/Navbar";
 import Navbar from "./components/Navbar/Navbar";
 import PersistLogin from "./components/PersistLogin";
 import RegisterTeam from "./components/Register/RegisterTeam";
@@ -30,7 +30,8 @@ function App() {
             {/* USER PRIVATE ROUTES */}
             <Route element={<PersistLogin />}>
               <Route element={<RequireUserAuth />}>
-                <Route path="/" element={<Dashboard />} />
+                <Route exact path="/" element={<Dashboard />} />
+                <Route path="/:projectId" element={<Project />} />
                 {/* <Route path="/tickets" element={<Tickets />} /> */}
               </Route>
             </Route>

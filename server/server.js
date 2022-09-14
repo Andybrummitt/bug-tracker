@@ -19,6 +19,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
+app.use('/api/tickets', require('./routes/ticketRoutes'));
 
 app.use(apiErrorHandler);
 

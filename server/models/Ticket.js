@@ -29,14 +29,14 @@ const ticketSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      enum: ["bug", "feature"],
-      default: "bug"
+      enum: ["Bug", "Feature"],
+      default: "Bug"
     },
     priority: {
       type: String,
       required: true,
-      enum: ["low", "medium", "high", "urgent"],
-      default: "low",
+      enum: ["Low", "Medium", "High", "Urgent"],
+      default: "Medium",
     },
   },
   {
@@ -50,4 +50,4 @@ ticketSchema.plugin(AutoIncrement, {
     start_seq: 0
 })
 
-module.exports = mongoose.model("User", ticketSchema);
+module.exports = mongoose.model("Ticket", ticketSchema);

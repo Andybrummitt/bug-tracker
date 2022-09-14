@@ -19,7 +19,8 @@ const projectSchema = new mongoose.Schema(
     completed: {
       type: Boolean,
       default: false,
-    }
+    },
+    tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }],
   },
   {
     timeStamps: true,

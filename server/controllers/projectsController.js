@@ -1,7 +1,6 @@
 const ApiError = require("../error/apiError");
 const Team = require("../models/Team");
 const asyncHandler = require("express-async-handler");
-const { findOne } = require("../models/Team");
 const Project = require("../models/Project");
 const User = require("../models/User");
 
@@ -9,19 +8,18 @@ const User = require("../models/User");
 //  GET /api/projects
 const getProjects = asyncHandler(async (req, res, next) => {
   const { teamId } = req;
-  const team = await Team.findOne({_id: teamId});
-  if(!team){
-      return next(ApiError.internalError('Something wen\'t wrong'));
+  const team = await Team.findOne({ _id: teamId });
+  if (!team) {
+    return next(ApiError.internalError("Something wen't wrong"));
   }
 
-  //  POPULATE PROJECT OBJECT REF IDS AND SEND TEAM PROJECTS IN RESPONSE  
-  Team.findOne({_id: teamId})
-    .populate('projects')
+  //  POPULATE PROJECT OBJECT REF IDS AND SEND TEAM PROJECTS IN RESPONSE
+  Team.findOne({ _id: teamId })
+    .populate("projects")
     .exec()
     .then((team) => {
-      res.json(team.projects)
-  })
-
+      res.json(team.projects);
+    });
 });
 
 //  CREATE NEW PROJECT
@@ -29,7 +27,7 @@ const getProjects = asyncHandler(async (req, res, next) => {
 const createProject = asyncHandler(async (req, res, next) => {
   const { newProject } = req.body;
   const { teamId, username } = req;
-  console.log(newProject)
+  console.log(newProject);
   if (!newProject) {
     return next(ApiError.badRequest("Please provide a project name."));
   }
@@ -48,18 +46,21 @@ const createProject = asyncHandler(async (req, res, next) => {
     );
   }
 
-  //  FIND USER AND CREATE PROJECT FROM SCHEMA 
+  //  FIND USER AND CREATE PROJECT FROM SCHEMA
   const user = await User.findOne({ team: team._id, username });
 
-  const project = await Project.create({ title: newProject, team: team._id, createdBy: user._id });
+  const project = await Project.create({
+    title: newProject,
+    team: team._id,
+    createdBy: user._id,
+  });
 
   //  UPDATE TEAM TO INCLUDE PROJECT CREATED
   team.projects.push(project);
-  team.save()
+  team.save();
 
   // SEND PROJECT IN RESPONSE
   res.json(project);
-
 });
 
 module.exports = {

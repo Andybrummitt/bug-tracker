@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
+import ProjectsList from "./ProjectsList";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState("");
-  const { username, team } = useSelector((state) => state.user);
   const [error, setError] = useState("");
   const { auth, setAuth } = useContext(AuthContext);
   const apiCall = useAxiosWithAuth();
 
   useEffect(() => {
     getProjects();
+    console.log(projects);
   }, []);
 
   const getProjects = async () => {
@@ -39,12 +38,12 @@ const Projects = () => {
     })
       .then((res) => {
         const projectData = res.data;
-        setNewProject('');
+        setNewProject("");
         setProjects([...projects, projectData]);
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   };
   return (
     <div>
@@ -54,14 +53,7 @@ const Projects = () => {
           Your team doesn't seem to have any active projects at the moment
         </p>
       ) : (
-        <>
-          <h4>Projects</h4>
-          <ul>
-            {projects.map((project) => {
-              return <li key={uuidv4()}>{project.title}</li>;
-            })}
-          </ul>
-        </>
+        <ProjectsList projects={projects} />
       )}
       <div className="new-project-container p-2">
         {error ? <p className="error">{error}</p> : null}
