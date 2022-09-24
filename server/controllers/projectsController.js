@@ -36,7 +36,7 @@ const createProject = asyncHandler(async (req, res, next) => {
   const team = await Team.findOne({ _id: teamId });
 
   const existingProject = await Project.findOne({
-    team: team._id,
+    team: { _id: team._id },
     title: newProject,
   });
 
@@ -47,12 +47,12 @@ const createProject = asyncHandler(async (req, res, next) => {
   }
 
   //  FIND USER AND CREATE PROJECT FROM SCHEMA
-  const user = await User.findOne({ team: team._id, username });
+  const user = await User.findOne({ team: {_id: team._id }, username });
 
   const project = await Project.create({
     title: newProject,
-    team: team._id,
-    createdBy: user._id,
+    team: {_id: team._id },
+    createdBy: {_id: user._id},
   });
 
   //  UPDATE TEAM TO INCLUDE PROJECT CREATED

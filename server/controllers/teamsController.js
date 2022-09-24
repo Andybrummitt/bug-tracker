@@ -3,11 +3,19 @@ const bcrypt = require("bcrypt");
 const Team = require("../models/Team");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 //  Register Team
 //  POST /api/auth/team/register
 const registerTeam = asyncHandler(async (req, res, next) => {
   const { teamName, password } = req.body;
+
+  // const res1 = await mongoose.connection.db.dropCollection('projects')
+  // const res2 = await mongoose.connection.db.dropCollection('teams')
+  // const res3 = await mongoose.connection.db.dropCollection('tickets')
+  // const res4 = await mongoose.connection.db.dropCollection('users')
+  // console.log(res1, res2, res3, res4)
+  // return;
 
   //  CHECK VALUES FROM REQ.BODY
   if (!teamName || !password) {

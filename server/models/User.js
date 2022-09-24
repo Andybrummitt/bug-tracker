@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       ref: "Team",
     },
+    tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }]
   },
   {
     timeStamps: true,

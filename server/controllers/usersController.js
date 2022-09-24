@@ -5,6 +5,7 @@ const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
 const Team = require("../models/Team");
 
+
 //  Register User
 //  POST /api/auth/user/register
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -30,7 +31,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const team = await Team.findOne({name: teamName});
 
     //  CREATE USER AND STORE IN DB
-    const userObj = { username, team: team._id, password: hashedPass };
+    const userObj = { username, team: {_id: team._id}, password: hashedPass };
 
     const user = await User.create(userObj);
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
-import ProjectsList from "./ProjectsList";
+import ProjectsList from "../ProjectsList/ProjectsList";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);

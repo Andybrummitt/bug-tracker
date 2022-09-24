@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Project from "./components/Projects/Project";
+import Project from "./components/Project/Project";
 import Dashboard from "./components/Dashboard/Dashboard";
 import LoginTeam from "./components/Login/LoginTeam";
 import LoginUser from "./components/Login/LoginUser";
