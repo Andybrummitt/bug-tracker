@@ -4,9 +4,17 @@ const Project = require("../models/Project");
 const User = require("../models/User");
 const Ticket = require("../models/Ticket");
 
+
+//  GET ALL TICKETS
+//  GET /api/tickets
+const getAllTickets = asyncHandler(async (req, res, next) => {
+  const { teamId } = req;
+
+})
+
 //  GET PROJECT TICKETS
-//  GET /api/:projectId/tickets
-const getTickets = asyncHandler(async (req, res, next) => {
+//  GET /api/tickets/:projectId
+const getProjectTickets = asyncHandler(async (req, res, next) => {
   const { projectId } = req.params;
   const { teamId } = req;
 
@@ -99,7 +107,8 @@ const deleteTicket = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
-  getTickets,
+  getAllTickets,
+  getProjectTickets,
   createTicket,
   deleteTicket,
 };

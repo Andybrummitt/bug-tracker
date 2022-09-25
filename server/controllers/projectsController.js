@@ -3,6 +3,7 @@ const Team = require("../models/Team");
 const asyncHandler = require("express-async-handler");
 const Project = require("../models/Project");
 const User = require("../models/User");
+const Ticket = require("../models/Ticket");
 
 //  GET TEAM'S PROJECTS
 //  GET /api/projects
@@ -28,8 +29,9 @@ const createProject = asyncHandler(async (req, res, next) => {
   const { newProject } = req.body;
   const { teamId, username } = req;
   console.log(newProject);
-  if (!newProject) {
-    return next(ApiError.badRequest("Please provide a project name."));
+  
+  if (!newProject.title || !newProject.description) {
+    return next(ApiError.badRequest("Please provide a project name and description."));
   }
 
   //  FIND TEAM AND CHECK IF TEAM ALREADY HAS PROJECT WITH PASSED NAME
@@ -37,7 +39,7 @@ const createProject = asyncHandler(async (req, res, next) => {
 
   const existingProject = await Project.findOne({
     team: { _id: team._id },
-    title: newProject,
+    title: newProject.title,
   });
 
   if (existingProject) {
@@ -47,12 +49,13 @@ const createProject = asyncHandler(async (req, res, next) => {
   }
 
   //  FIND USER AND CREATE PROJECT FROM SCHEMA
-  const user = await User.findOne({ team: {_id: team._id }, username });
+  const user = await User.findOne({ team: { _id: team._id }, username });
 
   const project = await Project.create({
-    title: newProject,
-    team: {_id: team._id },
-    createdBy: {_id: user._id},
+    title: newProject.title,
+    description: newProject.description,
+    team: { _id: team._id },
+    createdBy: { _id: user._id },
   });
 
   //  UPDATE TEAM TO INCLUDE PROJECT CREATED
@@ -63,7 +66,33 @@ const createProject = asyncHandler(async (req, res, next) => {
   res.json(project);
 });
 
+//  DELETE /api/projects/:projectId
+const deleteProject = asyncHandler(async (req, res, next) => {
+  const { teamId, username } = req;
+  const { projectId } = req.params;
+
+  //  FIND USER
+  const user = await User.findOne({ team: { _id: teamId }, username });
+
+  //  FIND PROJECT
+  const project = await Project.findOne({ _id: projectId });
+
+  //  DELETE TICKET DOCUMENTS
+  for(let ticket of project.tickets){
+    await Ticket.findOneAndDelete({
+      _id: ticket._id,
+      project: {_id: projectId},
+      createdBy: {_id: user._id},
+    });
+  }
+
+  await Project.findOneAndDelete({_id: projectId});
+
+  res.json(projectId);
+});
+
 module.exports = {
   getProjects,
   createProject,
+  deleteProject,
 };
