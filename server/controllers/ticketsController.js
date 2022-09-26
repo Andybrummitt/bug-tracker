@@ -9,7 +9,8 @@ const Ticket = require("../models/Ticket");
 //  GET /api/tickets
 const getAllTickets = asyncHandler(async (req, res, next) => {
   const { teamId } = req;
-
+  const tickets = await Ticket.find({ team: { _id: teamId } }).exec();
+  res.json(tickets)
 })
 
 //  GET PROJECT TICKETS
@@ -55,6 +56,7 @@ const createTicket = asyncHandler(async (req, res, next) => {
     title: newTicket.title,
     description: newTicket.description,
     completed: false,
+    team: { _id: teamId },
     type: newTicket.type,
     priority: newTicket.priority,
   });
