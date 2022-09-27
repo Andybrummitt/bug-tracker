@@ -11,6 +11,7 @@ import RegisterUser from "./components/Register/RegisterUser";
 import RequireTeamAuth from "./components/RequireTeamAuth";
 import RequireUserAuth from "./components/RequireUserAuth";
 import AuthProvider, { AuthContext } from "./context/AuthProvider";
+import Tickets from "./components/Tickets/Tickets";
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
               <Route element={<RequireUserAuth />}>
                 <Route exact path="/" element={<Dashboard />} />
                 <Route path="/:projectId" element={<Project />} />
-                {/* <Route path="/tickets" element={<Tickets />} /> */}
+                <Route path="/tickets" element={<Tickets />} />
               </Route>
             </Route>
 

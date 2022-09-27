@@ -77,7 +77,7 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
-            <option value="Feature">Feature</option>
+            <option value="Urgent">Urgent</option>
           </select>
         </div>
 

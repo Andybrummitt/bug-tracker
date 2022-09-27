@@ -4,7 +4,9 @@ import { v4 as uuid } from "uuid";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import CreateTicket from "../CreateTicket/CreateTicket";
+import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
 import Ticket from "../Ticket/Ticket";
+import TicketsTable from "../TicketsTable/TicketsTable";
 
 const Project = () => {
   const params = useParams();
@@ -17,11 +19,33 @@ const Project = () => {
   });
   const [error, setError] = useState("");
   const [tickets, setTickets] = useState([]);
+  const [ticketsInView, setTicketsInView] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumberArray, setPageNumberArray] = useState([]);
+  const ticketsPerPage = 2;
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(tickets)
-  }, [tickets])
+    //  GET INITIAL TICKETS
+    getTickets();
+  }, []);
+
+  useEffect(() => {
+    //  SET PAGE NUMBER
+    const numOfPages = Math.ceil(tickets.length / ticketsPerPage);
+    let tempPageNumberArray = [];
+    for (let i = 0; i < numOfPages; i++) {
+      tempPageNumberArray.push(i + 1);
+    }
+    setPageNumberArray(tempPageNumberArray);
+  }, [tickets]);
+
+  useEffect(() => {
+    //  SHOW TICKETS PER PAGE CHANGE
+    const firstTicketIndex = (currentPage - 1) * ticketsPerPage;
+    const viewedTickets = tickets.slice(firstTicketIndex, firstTicketIndex + ticketsPerPage)
+    setTicketsInView(viewedTickets)
+  }, [tickets, currentPage])
 
   const apiCall = useAxiosWithAuth();
 
@@ -68,19 +92,23 @@ const Project = () => {
       });
   };
 
-  useEffect(() => {
-    getTickets();
-  }, []);
-
   return (
     <div>
       <h2>Project</h2>
-      {tickets.length < 1 ? (
+      {pageNumberArray.length > 0 ? (
+        <TablePaginationNav
+          pageNumberArray={pageNumberArray}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
+      {ticketsInView.length < 1 ? (
         <p>This project does not have any tickets at the moment</p>
       ) : (
-        tickets.map((ticket) => <Ticket key={uuid()} ticket={ticket} setTickets={setTickets} tickets={tickets} />)
+        <TicketsTable ticketsInView={ticketsInView} />
       )}
       <p className="error-message">{error}</p>
+      
       <CreateTicket
         newTicket={newTicket}
         setNewTicket={setNewTicket}
