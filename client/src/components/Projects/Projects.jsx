@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import ProjectsList from "../ProjectsList/ProjectsList";
+import styles from "./projects.module.scss";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
-    title: '',
-    description: ''
+    title: "",
+    description: "",
   });
   const [error, setError] = useState("");
   const { auth, setAuth } = useContext(AuthContext);
@@ -29,7 +30,8 @@ const Projects = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newProject.title) return setError("Please provide a project name");
-    if(!newProject.description) return setError("Please provide a project description");
+    if (!newProject.description)
+      return setError("Please provide a project description");
     apiCall({
       url: `/api/projects`,
       method: `post`,
@@ -41,7 +43,7 @@ const Projects = () => {
     })
       .then((res) => {
         const projectData = res.data;
-        setNewProject({ title: '', description: '' });
+        setNewProject({ title: "", description: "" });
         setError("");
         setProjects([...projects, projectData]);
       })
@@ -52,7 +54,7 @@ const Projects = () => {
   return (
     <div>
       {projects.length < 1 ? (
-        <p className="text-center text-danger">
+        <p className="text-center m-3">
           Your team doesn't seem to have any active projects at the moment
         </p>
       ) : (
@@ -60,37 +62,51 @@ const Projects = () => {
       )}
       <div className="new-project-container p-2">
         {error ? <p className="error">{error}</p> : null}
-        <p className="mt-3 mb-2">Add a new project</p>
+        <form className={styles.formContainer}>
+        <p className="m-3">Add a new project</p>
         <div className="input-group mb-3">
           <input
             type="text"
             className="form-control"
             value={newProject.title}
-            onChange={(e) => setNewProject(project => ({...project, title: e.target.value}))}
+            onChange={(e) =>
+              setNewProject((project) => ({
+                ...project,
+                title: e.target.value,
+              }))
+            }
             placeholder="Project Name"
             aria-label="Project Name"
             aria-describedby="basic-addon2"
             maxLength="30"
           />
-          <input type="text"
-          className="form-control"
+        </div>
+        <div className="input-group mb-3">
+          <textarea
+            type="text"
+            className="form-control"
             value={newProject.description}
-            onChange={(e) => setNewProject(project => ({...project, description: e.target.value}))}
+            onChange={(e) =>
+              setNewProject((project) => ({
+                ...project,
+                description: e.target.value,
+              }))
+            }
             placeholder="Project Description"
             aria-label="Project Description"
             aria-describedby="basic-addon2"
-            maxLength="100"
+            maxLength="150"
           />
-          <div className="input-group-append">
-            <button
-              onClick={handleSubmit}
-              className="btn btn-primary"
-              type="submit"
-            >
-              Button
-            </button>
-          </div>
         </div>
+
+        <button
+          onClick={handleSubmit}
+          className="btn btn-primary"
+          type="submit"
+        >
+          Add Project
+        </button>
+      </form>
       </div>
     </div>
   );

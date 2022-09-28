@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { useDispatch } from 'react-redux';
 import { setUserTeam } from "../../redux/user"; 
+import styles from "./login.module.scss";
 
 const LoginTeam = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -41,9 +42,9 @@ const LoginTeam = () => {
   };
 
   return (
-    <div>
-      <h1>Team Login</h1>
-      {error && <p className="text-danger">{error}</p>}
+    <div className={styles.formContainer}>
+      <h1 className="m-3 text-center">Team Login</h1>
+      {error && <p className="mt-2 mb-2 text-center text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="teamname">

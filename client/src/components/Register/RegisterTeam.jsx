@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { setUserTeam } from "../../redux/user";
+import styles from "./register.module.scss";
 
 const RegisterTeam = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -55,9 +56,9 @@ const RegisterTeam = () => {
   };
 
   return (
-    <div>
-      <h1>Register Team</h1>
-      {error && <p className="text-danger">{error}</p>}
+    <div className={styles.formContainer}>
+      <h1 className="m-3 text-center">Register Team</h1>
+      {error && <p className="mt-2 mb-2 text-center text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="teamname">

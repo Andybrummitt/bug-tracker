@@ -113,7 +113,7 @@ const Project = () => {
         />
       ) : null}
       {ticketsInView.length < 1 ? (
-        <p>This project does not have any tickets at the moment</p>
+        <p className="text-center m-3">This project does not have any tickets at the moment</p>
       ) : (
         <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
       )}

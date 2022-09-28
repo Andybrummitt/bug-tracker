@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
+import styles from "./projectsList.module.scss";
 
 const ProjectsList = ({ projects, setProjects }) => {
 
@@ -38,10 +39,10 @@ const ProjectsList = ({ projects, setProjects }) => {
 
   return (
     <div>
-      <h4>Projects</h4>
-      <p className="text-success">{successMessage && successMessage}</p>
-      <p className="text-danger">{error && error.message}</p>
-      <table className="table table-bordered">
+      <h1 className="text-center m-3">Projects</h1>
+      <p className="text-success text-center">{successMessage && successMessage}</p>
+      <p className="text-danger text-center">{error && error.message}</p>
+      <table className={`table table-bordered ${styles.table}`}>
         <thead className="thead-dark">
           <tr>
             <th scope="col">Name of Project</th>

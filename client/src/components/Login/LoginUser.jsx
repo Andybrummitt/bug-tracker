@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { setUser } from "../../redux/user";
+import styles from "./login.module.scss";
 
 const LoginUser = () => {
   const [username, setUsername] = useState("");
@@ -42,8 +43,9 @@ const LoginUser = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className={styles.formContainer}>
+      <h1 className="m-3 text-center">Login User</h1>
+      {error && <p className="mt-2 mb-2 text-center text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="username">
