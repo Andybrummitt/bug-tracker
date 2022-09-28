@@ -14,7 +14,7 @@ const ProjectsList = ({ projects, setProjects }) => {
   const navigate = useNavigate();
   
   const handleViewProject = (project) => {
-    navigate(`/${project._id}`);
+    navigate(`/${project.title}`);
   }
 
   const deleteProject = (project) => {
@@ -33,7 +33,7 @@ const ProjectsList = ({ projects, setProjects }) => {
         setProjects((projects) => projects.filter((project) => project._id !== projectId));
         setSuccessMessage('Project Deleted');
       })
-      .catch((err) => setError(err));
+      .catch((err) => setError(err.message));
   }
 
   return (
@@ -54,7 +54,7 @@ const ProjectsList = ({ projects, setProjects }) => {
             return (
               <tr key={uuidv4()}>
                 <th scope="row">
-                  <Link to={`/${project._id}`}>{project.title}</Link>
+                  <Link to={`/${project.title}`}>{project.title}</Link>
                 </th>
                 <td>{project.description}</td>
                 <td>

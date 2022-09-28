@@ -13,7 +13,7 @@ const Ticket = ({ ticket, setTickets }) => {
   const deleteTicket = () => {
     //  show areyousure modal component
     apiCall({
-      url: `/api/tickets/${params.projectId}/${ticket._id}`,
+      url: `/api/tickets/${params.projectName}/${ticket._id}`,
       method: `delete`,
       headers: JSON.stringify({
         Authorization: `Bearer ${auth.userAccessToken}`,
@@ -24,10 +24,13 @@ const Ticket = ({ ticket, setTickets }) => {
         const ticketId = res.data;
         setTickets((tickets) =>
           tickets.filter((ticket) => ticket._id !== ticketId)
-        );
+        );    
         setSuccessMessage(res.data);
       })
-      .catch((err) => setError(err));
+      .catch((err) => {
+        console.log(err)
+        setError(err)
+      });
   };
 
   const priorityColor = (priority) => {

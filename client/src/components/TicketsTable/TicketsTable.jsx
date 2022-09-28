@@ -1,10 +1,11 @@
 import React from "react";
 import Ticket from "../Ticket/Ticket";
 import { v4 as uuid } from "uuid";
+import styles from "./ticketsTable.module.scss";
 
-const TicketsTable = ({ ticketsInView }) => {
+const TicketsTable = ({ ticketsInView, setTickets }) => {
   return (
-    <table className="table table-bordered">
+    <table className={`table table-bordered ${styles.table}`}>
       <thead className="thead-dark">
         <tr>
           <th scope="col">Title</th>
@@ -16,7 +17,7 @@ const TicketsTable = ({ ticketsInView }) => {
       </thead>
       <tbody>
         {ticketsInView.map((ticket) => {
-          return <Ticket key={uuid()} ticket={ticket} />;
+          return <Ticket key={uuid()} ticket={ticket} setTickets={setTickets} />;
         })}
       </tbody>
     </table>

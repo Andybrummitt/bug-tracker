@@ -32,7 +32,7 @@ function App() {
             <Route element={<PersistLogin />}>
               <Route element={<RequireUserAuth />}>
                 <Route exact path="/" element={<Dashboard />} />
-                <Route path="/:projectId" element={<Project />} />
+                <Route path="/:projectName" element={<Project />} />
                 <Route path="/tickets" element={<Tickets />} />
               </Route>
             </Route>

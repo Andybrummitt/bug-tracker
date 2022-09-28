@@ -15,7 +15,6 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects();
-    console.log(projects);
   }, []);
 
   const getProjects = async () => {

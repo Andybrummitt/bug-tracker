@@ -1,9 +1,10 @@
 import React from "react";
+import styles from "./createTicket.module.scss";
 
 const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
   return (
-    <div>
-      <p className="mt-3 mb-2">Create ticket</p>
+    <div className={styles.container}>
+      <h2 className="mt-3 mb-2">Create ticket</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group mb-3">
           <input
@@ -23,8 +24,9 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
           />
         </div>
         <div className="input-group-append">
-          <input
+          <textarea
             type="text"
+            maxLength="400"
             className="form-control"
             value={newTicket.description}
             onChange={(e) =>
@@ -39,49 +41,53 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             maxLength="200"
           />
         </div>
-        <div className="input-group mb-3">
-          <label htmlFor="priority-range" className="form-label">
-            Type of ticket
-          </label>
-          <select
-            className="form-select form-select-lg mb-3"
-            aria-label=".form-select-lg example"
-            value={newTicket.type}
-            onChange={(e) =>
-              setNewTicket((newTicket) => ({
-                ...newTicket,
-                type: e.target.value,
-              }))
-            }
-          >
-            <option value="Bug">Bug</option>
-            <option value="Feature">Feature</option>
-          </select>
+        <div className={styles.selectInputsContainer}>
+          <div className="input-group mb-3">
+            <label htmlFor="priority-range" className="form-label">
+              Type of ticket
+            </label>
+            <select
+              className="form-select form-select-lg mb-3"
+              aria-label=".form-select-lg example"
+              value={newTicket.type}
+              onChange={(e) =>
+                setNewTicket((newTicket) => ({
+                  ...newTicket,
+                  type: e.target.value,
+                }))
+              }
+            >
+              <option value="Bug">Bug</option>
+              <option value="Feature">Feature</option>
+            </select>
+          </div>
+
+          <div className="input-group mb-3">
+            <label htmlFor="priority-range" className="form-label">
+              Priority
+            </label>
+            <select
+              className="form-select form-select-lg mb-3"
+              aria-label=".form-select-lg example"
+              value={newTicket.priority}
+              onChange={(e) =>
+                setNewTicket((newTicket) => ({
+                  ...newTicket,
+                  priority: e.target.value,
+                }))
+              }
+            >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Urgent">Urgent</option>
+            </select>
+          </div>
         </div>
 
-        <div className="input-group mb-3">
-          <label htmlFor="priority-range" className="form-label">
-            Priority
-          </label>
-          <select
-            className="form-select form-select-lg mb-3"
-            aria-label=".form-select-lg example"
-            value={newTicket.priority}
-            onChange={(e) =>
-              setNewTicket((newTicket) => ({
-                ...newTicket,
-                priority: e.target.value,
-              }))
-            }
-          >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-            <option value="Urgent">Urgent</option>
-          </select>
-        </div>
-
-        <button type="Submit">Create Ticket</button>
+        <button className="btn btn-primary" type="Submit">
+          Create Ticket
+        </button>
       </form>
     </div>
   );

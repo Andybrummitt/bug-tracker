@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { v4 as uuid } from "uuid";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import CreateTicket from "../CreateTicket/CreateTicket";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
-import Ticket from "../Ticket/Ticket";
 import TicketsTable from "../TicketsTable/TicketsTable";
 
 const Project = () => {
@@ -43,15 +41,25 @@ const Project = () => {
   useEffect(() => {
     //  SHOW TICKETS PER PAGE CHANGE
     const firstTicketIndex = (currentPage - 1) * ticketsPerPage;
-    const viewedTickets = tickets.slice(firstTicketIndex, firstTicketIndex + ticketsPerPage)
-    setTicketsInView(viewedTickets)
-  }, [tickets, currentPage])
+    const viewedTickets = tickets.slice(
+      firstTicketIndex,
+      firstTicketIndex + ticketsPerPage
+    );
+    setTicketsInView(viewedTickets);
+  }, [tickets, currentPage]);
+
+  useEffect(() => {
+    //  WHEN DELETING LAST TICKET FROM PAGE > GO TO PREV PAGE
+    if(ticketsInView.length < 1 && currentPage > 1){
+      setCurrentPage(currentPage => currentPage-1)
+    }
+  }, [ticketsInView])
 
   const apiCall = useAxiosWithAuth();
 
   const getTickets = async () => {
     apiCall({
-      url: `/api/tickets/${params.projectId}`,
+      url: `/api/tickets/${params.projectName}`,
       method: `get`,
       headers: JSON.stringify({
         Authorization: `Bearer ${auth.userAccessToken}`,
@@ -59,7 +67,7 @@ const Project = () => {
       }),
     })
       .then((res) => setTickets(res.data))
-      .catch((err) => setError(err));
+      .catch((err) => setError(err.message));
   };
 
   const handleSubmit = async (e) => {
@@ -68,7 +76,7 @@ const Project = () => {
     if (!title || !description || !type || !priority)
       setError("Please fill in all required fields");
     apiCall({
-      url: `/api/tickets/${params.projectId}`,
+      url: `/api/tickets/${params.projectName}`,
       method: `post`,
       data: { newTicket },
       headers: JSON.stringify({
@@ -88,13 +96,15 @@ const Project = () => {
         setTickets([...tickets, ticketData]);
       })
       .catch((err) => {
-        setError(err);
+        setError(err.message);
       });
   };
 
   return (
     <div>
-      <h2>Project</h2>
+      <h2 className="text-center mt-2 mb-5">{`Project: ${decodeURI(
+        params.projectName
+      )}`}</h2>
       {pageNumberArray.length > 0 ? (
         <TablePaginationNav
           pageNumberArray={pageNumberArray}
@@ -105,10 +115,10 @@ const Project = () => {
       {ticketsInView.length < 1 ? (
         <p>This project does not have any tickets at the moment</p>
       ) : (
-        <TicketsTable ticketsInView={ticketsInView} />
+        <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
       )}
       <p className="error-message">{error}</p>
-      
+
       <CreateTicket
         newTicket={newTicket}
         setNewTicket={setNewTicket}

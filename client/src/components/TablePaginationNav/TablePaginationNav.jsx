@@ -21,6 +21,7 @@ const TablePaginationNav = ({
   };
 
   return (
+    <div className={styles.navContainer}>
     <nav aria-label="Page navigation example">
       <ul className={`pagination ${styles.ul}`}>
         <li className="page-item" onClick={() => setPrevPage(currentPage)}>
@@ -49,6 +50,7 @@ const TablePaginationNav = ({
         </li>
       </ul>
     </nav>
+    </div>
   );
 };
 

@@ -5,8 +5,8 @@ const router = express.Router();
 const verifyUserJWT = require('../middleware/verifyUserJWT.js');
 
 router.get('/', verifyUserJWT, getAllTickets)
-router.get('/:projectId', verifyUserJWT, getProjectTickets);
-router.post('/:projectId', verifyUserJWT, createTicket);
-router.delete('/:projectId/:ticketId', verifyUserJWT, deleteTicket);
+router.get('/:projectName', verifyUserJWT, getProjectTickets);
+router.post('/:projectName', verifyUserJWT, createTicket);
+router.delete('/:projectName/:ticketId', verifyUserJWT, deleteTicket);
 
 module.exports = router;
