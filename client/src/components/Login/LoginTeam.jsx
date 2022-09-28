@@ -11,7 +11,6 @@ const LoginTeam = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const from = location.state?.from?.pathname || "/";
 
   const [teamName, setTeamName] = useState("");
   const [password, setPassword] = useState("");

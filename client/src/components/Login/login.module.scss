@@ -3,4 +3,8 @@
     padding: 1rem;
     border: 1px solid grey;
     border-radius: 1rem;
+    div {
+        display: flex;
+        justify-content: center;
+    }
 }

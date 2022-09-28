@@ -35,6 +35,7 @@ const useAxiosWithAuth = () => {
           resolve(res);
         })
         .catch((err) => {
+          console.log(err)
           if (apiCalls < 1 && err.response.status === 403) {
             refresh().then((userAccessToken) => {
               apiCalls += 1;

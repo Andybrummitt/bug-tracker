@@ -12,6 +12,8 @@ import RequireTeamAuth from "./components/RequireTeamAuth";
 import RequireUserAuth from "./components/RequireUserAuth";
 import AuthProvider, { AuthContext } from "./context/AuthProvider";
 import Tickets from "./components/Tickets/Tickets";
+import NotFound from "./components/NotFound/NotFound";
+import ManageAccount from "./components/ManageAccount/ManageAccount";
 
 function App() {
 
@@ -21,8 +23,9 @@ function App() {
         <BrowserRouter>
             <Navbar />
           <Routes>
+          <Route path='*' element={<NotFound />} />
+            
             {/* TEAM PRIVATE ROUTES */}
-
             <Route element={<RequireTeamAuth />}>
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
@@ -34,6 +37,7 @@ function App() {
                 <Route exact path="/" element={<Dashboard />} />
                 <Route path="/:projectName" element={<Project />} />
                 <Route path="/tickets" element={<Tickets />} />
+                <Route path="/account" element={<ManageAccount />} />
               </Route>
             </Route>
 

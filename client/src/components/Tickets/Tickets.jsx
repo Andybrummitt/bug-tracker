@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
@@ -10,6 +11,7 @@ const Tickets = () => {
   const [ticketsInView, setTicketsInView] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageNumberArray, setPageNumberArray] = useState([]);
+  const [loading, setLoading] = useState(true);
   const ticketsPerPage = 2;
   const { auth } = useContext(AuthContext);
 
@@ -57,25 +59,32 @@ const Tickets = () => {
       }),
     })
       .then((res) => setTickets(res.data))
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   };
 
   return (
     <div>
       {pageNumberArray.length > 0 ? (
-        <TablePaginationNav
-          pageNumberArray={pageNumberArray}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        <>
+          <h4 className="m-3 text-center">Displaying All Team Tickets</h4>
+          <TablePaginationNav
+            pageNumberArray={pageNumberArray}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
       ) : null}
-      {ticketsInView.length < 1 ? (
+      {ticketsInView.length < 1 && loading === false ? (
         <p className="text-center m-3">
           Your team does not have any tickets at the moment
         </p>
+      ) : ticketsInView.length < 1 && loading === true ? (
+        <div className="text-center m-3">
+          <PropagateLoader />
+        </div>
       ) : (
         <>
-          <h4 className="m-3 text-center">Displaying All Team Tickets</h4>
           <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
         </>
       )}

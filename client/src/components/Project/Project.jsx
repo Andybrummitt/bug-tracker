@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import CreateTicket from "../CreateTicket/CreateTicket";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
 import TicketsTable from "../TicketsTable/TicketsTable";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const Project = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [newTicket, setNewTicket] = useState({
     title: "",
@@ -16,6 +18,7 @@ const Project = () => {
     priority: "Medium",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [ticketsInView, setTicketsInView] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,10 +53,10 @@ const Project = () => {
 
   useEffect(() => {
     //  WHEN DELETING LAST TICKET FROM PAGE > GO TO PREV PAGE
-    if(ticketsInView.length < 1 && currentPage > 1){
-      setCurrentPage(currentPage => currentPage-1)
+    if (ticketsInView.length < 1 && currentPage > 1) {
+      setCurrentPage((currentPage) => currentPage - 1);
     }
-  }, [ticketsInView])
+  }, [ticketsInView]);
 
   const apiCall = useAxiosWithAuth();
 
@@ -67,7 +70,13 @@ const Project = () => {
       }),
     })
       .then((res) => setTickets(res.data))
-      .catch((err) => setError(err.message));
+      .catch((err) => {
+        if(err.response.status === 404){
+          navigate('/error/404')
+        }
+        setError(err.message)
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleSubmit = async (e) => {
@@ -106,19 +115,27 @@ const Project = () => {
         params.projectName
       )}`}</h2>
       {pageNumberArray.length > 0 ? (
-        <TablePaginationNav
-          pageNumberArray={pageNumberArray}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+        <>
+          <h4 className="text-center m-3">Project Tickets</h4>
+          <TablePaginationNav
+            pageNumberArray={pageNumberArray}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
       ) : null}
-      {ticketsInView.length < 1 ? (
-        <p className="text-center m-3">This project does not have any tickets at the moment</p>
+      {ticketsInView.length < 1 && loading === false ? (
+        <p className="text-center m-3">
+          This project does not have any tickets at the moment
+        </p>
+      ) : ticketsInView.length < 1 && loading === true ? (
+        <div className="text-center m-3">
+          <PropagateLoader />
+        </div>
       ) : (
         <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
       )}
-      <p className="error-message">{error}</p>
-
+      <p className="text-danger text-center">{error}</p>
       <CreateTicket
         newTicket={newTicket}
         setNewTicket={setNewTicket}

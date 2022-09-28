@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import ProjectsList from "../ProjectsList/ProjectsList";
 import styles from "./projects.module.scss";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -11,6 +12,7 @@ const Projects = () => {
     description: "",
   });
   const [error, setError] = useState("");
+  const [ loading, setLoading ] = useState(true);
   const { auth, setAuth } = useContext(AuthContext);
   const apiCall = useAxiosWithAuth();
 
@@ -24,7 +26,10 @@ const Projects = () => {
       method: `get`,
     })
       .then((res) => setProjects(res.data))
-      .catch((err) => setError(err));
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleSubmit = async (e) => {
@@ -53,11 +58,14 @@ const Projects = () => {
   };
   return (
     <div>
-      {projects.length < 1 ? (
+      {projects.length < 1 && loading === false ? (
         <p className="text-center m-3">
           Your team doesn't seem to have any active projects at the moment
         </p>
-      ) : (
+      ) : projects.length < 1 && loading === true ? (
+        <div className="text-center m-3"><PropagateLoader /></div>
+      ) :
+       (
         <ProjectsList projects={projects} setProjects={setProjects} />
       )}
       <div className="new-project-container p-2">
