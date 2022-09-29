@@ -8,7 +8,6 @@ const verifyTeamJWT = (req, res, next) => {
         return next(ApiError.unauthorized('Unauthorized.'));
     }
 
-
     const token = authHeader.split(' ')[1];
 
     jwt.verify(

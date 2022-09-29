@@ -4,6 +4,9 @@ const Team = require("../models/Team");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const User = require("../models/User");
+const Project = require("../models/Project");
+const Ticket = require("../models/Ticket");
 
 //  Register Team
 //  POST /api/auth/team/register
@@ -34,9 +37,13 @@ const registerTeam = asyncHandler(async (req, res, next) => {
   const hashedPass = await bcrypt.hash(password, saltRounds);
 
   //  CREATE TEAM AND STORE IN DB
-  const teamObj = { teamName, members: [], password: hashedPass };
+  const teamObj = { teamName, password: hashedPass };
+
+  console.log('creating team')
 
   const team = await Team.create(teamObj);
+
+  console.log(team)
 
   //  LOG INTO TEAM PORTAL
   if (team) {
@@ -50,6 +57,8 @@ const registerTeam = asyncHandler(async (req, res, next) => {
 //  POST /api/auth/team/login
 const loginTeam = asyncHandler(async (req, res, next) => {
   const { teamName, password } = req.body;
+
+  console.log({teamName})
 
   //  CHECK VALUES FROM REQ.BODY
   if (!teamName || !password) {
@@ -70,6 +79,8 @@ const loginTeam = asyncHandler(async (req, res, next) => {
     return next(ApiError.unauthorized("Wrong team name or password."));
   }
 
+  console.log({teamName})
+
   //  SEND ACCESS TOKEN
   const accessToken = jwt.sign(
     { TeamName: teamName },
@@ -80,10 +91,40 @@ const loginTeam = asyncHandler(async (req, res, next) => {
   res.json({ accessToken, teamName });
 });
 
-const logoutTeam = asyncHandler(async (req, res, next) => {});
+const deleteTeam = asyncHandler(async (req, res, next) => {
+  const { teamId, username } = req;
+  console.log(teamId, username);
+
+  //  CHECK IF TEAM
+  const team = await Team.findOne({_id: teamId});
+  if(!team){
+      return next(ApiError.internalError('Something wen\'t wrong'));
+  }
+
+  //  CHECK IF USER
+  const user = await User.findOne({name: username, team: { _id: teamId }});
+  if(!user){
+      return next(ApiError.badRequest('User does not exist'))
+  }
+
+  //  DELETE USERS
+  await User.deleteMany({team: teamId});
+
+  //  DELETE TEAM
+  await Team.deleteOne({ _id: teamId });
+
+  //  DELETE PROJECTS
+  await Project.deleteMany({team: teamId});
+
+  //  DELETE TICKETS
+  await Ticket.deleteMany({team: teamId});
+
+  res.json(teamId)
+
+})
 
 module.exports = {
   registerTeam,
   loginTeam,
-  logoutTeam,
+  deleteTeam
 };

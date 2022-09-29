@@ -6,25 +6,26 @@ const projectSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
-    }, 
+    },
     team: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Team",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Team",
     },
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     completed: {
       type: Boolean,
       default: false,
     },
-    tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }],
+    tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ticket" }],
   },
   {
     timeStamps: true,

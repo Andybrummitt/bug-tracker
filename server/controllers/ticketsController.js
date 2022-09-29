@@ -23,14 +23,20 @@ const getProjectTickets = asyncHandler(async (req, res, next) => {
     return next(ApiError.badRequest("Something wen't wrong."));
   }
 
+  const project = await Project.findOne({title: projectName, team: teamId});
+
+  if(!project){
+    return next(ApiError.notFound("Project does not exist."))
+  }
+
   //  POPULATE TICKET OBJECT REF IDS AND SEND PROJECT TICKETS IN RESPONSE
-  Project.findOne({ name: projectName, team: teamId })
+  Project.findOne({ title: projectName, team: teamId })
     .populate("tickets")
     .exec()
     .then((project) => {
-      console.log(project);
       res.json(project.tickets);
-    });
+    })
+    .catch(err => next(ApiError.badRequest("Something wen't wrong")));
 });
 
 //  CREATE TICKET
@@ -42,7 +48,7 @@ const createTicket = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({ username, team: teamId });
 
-  const project = await Project.findOne({ name: projectName, team: teamId })
+  const project = await Project.findOne({ title: projectName, team: teamId })
 
   if (!projectName || !user) {
     return next(ApiError.unauthorized("Unauthorized."));
@@ -79,18 +85,10 @@ const deleteTicket = asyncHandler(async (req, res, next) => {
   const { teamId, username } = req;
 
   const user = await User.findOne({ username, team: teamId });
-  const project = await Project.findOne({ name: projectName, team: teamId })
+  const project = await Project.findOne({ title: projectName, team: teamId })
 
   if (!projectName || !user) {
     return next(ApiError.unauthorized("Unauthorized."));
-  }
-
-  if (!user.tickets.includes(ticketId)) {
-    return next(
-      ApiError.unauthorized(
-        "You cannot remove a ticket which you did not create!"
-      )
-    );
   }
 
   await Ticket.findOneAndDelete({

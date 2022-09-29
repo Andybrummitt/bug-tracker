@@ -9,7 +9,10 @@ const Ticket = require("../models/Ticket");
 //  GET /api/projects
 const getProjects = asyncHandler(async (req, res, next) => {
   const { teamId } = req;
+
+  console.log(teamId)
   const team = await Team.findOne({ _id: teamId });
+  console.log(team)
   if (!team) {
     return next(ApiError.internalError("Something wen't wrong"));
   }

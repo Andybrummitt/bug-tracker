@@ -24,6 +24,10 @@ const Projects = () => {
     apiCall({
       url: `/api/projects`,
       method: `get`,
+      headers: JSON.stringify({
+        Authorization: `Bearer ${auth.userAccessToken}`,
+        "Content-Type": "application/json",
+      }),
     })
       .then((res) => setProjects(res.data))
       .catch((err) => {

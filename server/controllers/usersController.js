@@ -4,6 +4,8 @@ const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const jwt = require('jsonwebtoken');
 const Team = require("../models/Team");
+const Ticket = require("../models/Ticket");
+const Project = require("../models/Project");
 
 
 //  Register User
@@ -28,14 +30,23 @@ const registerUser = asyncHandler(async (req, res, next) => {
     const saltRounds = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
 
-    const team = await Team.findOne({name: teamName});
+    const team = await Team.findOne({ teamName });
+
+    if(team.members.length > 9){
+        return ApiError.badRequest('Your team already has 10 members.')
+    }
 
     //  CREATE USER AND STORE IN DB
-    const userObj = { username, team: {_id: team._id}, password: hashedPass };
+    const userObj = { username, team: team._id, password: hashedPass };
 
     const user = await User.create(userObj);
 
+    
     if(user){
+        //  ADD USER TO TEAM MEMBERS
+        team.members.push(user._id);
+        team.save();
+        //  LOGIN USER
         loginUser(req, res, next);
     }
     else {
@@ -56,7 +67,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         return next(ApiError.unauthorized('Unauthorized'))
     }
 
-    //  CHECK TEAM EXISTS IN DB
+    //  CHECK USER EXISTS IN DB
     const user = await User.findOne({ username }).exec();
 
     if(!user){
@@ -99,7 +110,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
 });
 
-const refresh = (req, res, next) => {
+const refresh = asyncHandler(async (req, res, next) => {
     const cookies = req.cookies;
     if(!cookies?.jwt){
         return next(ApiError.unauthorized('Unauthorized'));
@@ -139,9 +150,9 @@ const refresh = (req, res, next) => {
         })
 
     )
-};
+});
 
-const logoutUser = (req, res) => {
+const logoutUser = asyncHandler(async (req, res) => {
     const cookies = req.cookies;
 
     if(!cookies?.jwt) return res.sendStatus(204);
@@ -152,11 +163,39 @@ const logoutUser = (req, res) => {
         // sameSite: 'None'
      })
      res.json({ message: 'Cleared Cookie' });
-}
+});
+
+const deleteUser = asyncHandler(async (req, res, next) => {
+    const { teamId, username } = req;
+
+    //  CHECK IF TEAM
+    const team = await Team.findOne({_id: teamId});
+    if(!team){
+        return next(ApiError.internalError('Something wen\'t wrong'));
+    }
+
+    //  CHECK IF USER
+    const user = await User.findOne({name: username, team: teamId });
+    if(!user){
+        return next(ApiError.badRequest('User does not exist'))
+    }
+
+    //  DELETE USER
+    await User.deleteOne({name: username, team: teamId })
+
+    //  DELETE TEAM MEMBER
+    team.members.pull(user._id);
+    team.save();
+
+    res.json({user});
+})
+
+
 
 module.exports = {
     registerUser,
     loginUser,
     refresh,
-    logoutUser
+    logoutUser,
+    deleteUser
 }
