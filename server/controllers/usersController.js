@@ -7,6 +7,12 @@ const Team = require("../models/Team");
 const Ticket = require("../models/Ticket");
 const Project = require("../models/Project");
 
+const isValid = (input) => {
+    if (input.length >= 6 && input.length <= 15) {
+      return true;
+    }
+    return false;
+  };
 
 //  Register User
 //  POST /api/auth/user/register
@@ -18,6 +24,11 @@ const registerUser = asyncHandler(async (req, res, next) => {
     if(!username || !password){
         return next(ApiError.badRequest('Please include all required fields.'));
     }
+
+    //  CHECK USERNAME AND PASSWORD IS VALID LENGTH
+    if(!isValid(username) || !isValid(password)){
+        return next(ApiError.badRequest("Usernames and passwords must be between 6 and 15 characters."))
+      }
 
     //  CHECK FOR DUPLICATES
     const duplicate = await User.findOne({ username }).lean().exec();

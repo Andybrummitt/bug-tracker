@@ -21,8 +21,8 @@ const RegisterUser = () => {
     }
   }, [auth]);
 
-  const passwordIsValid = (password) => {
-    if (password.length >= 6 && password.length <= 15) {
+  const IsValid = (input) => {
+    if (input.length >= 6 && input.length <= 15) {
       return true;
     }
     return false;
@@ -31,8 +31,12 @@ const RegisterUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    if (!passwordIsValid(password)) {
+    if (!IsValid(password)) {
       setError("Passwords must be between 6 and 15 characters.");
+      return;
+    }
+    if (!IsValid(username)) {
+      setError("Usernames must be between 6 and 15 characters.");
       return;
     }
     if (password !== repeatPassword) {

@@ -48,7 +48,15 @@ const createTicket = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({ username, team: teamId });
 
-  const project = await Project.findOne({ title: projectName, team: teamId })
+  const project = await Project.findOne({ title: projectName, team: teamId });
+
+  if(project.tickets.length > 29){
+    return next(ApiError.badRequest("Projects can only have up to 30 tickets at a time."))
+  }
+
+  if(newTicket.title.length > 30 || newTicket.description.length > 250){
+    return next(ApiError.badRequest("Ticket title or description is too long."))
+  }
 
   if (!projectName || !user) {
     return next(ApiError.unauthorized("Unauthorized."));

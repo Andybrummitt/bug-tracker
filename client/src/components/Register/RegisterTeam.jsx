@@ -15,8 +15,8 @@ const RegisterTeam = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const passwordIsValid = (password) => {
-    if (password.length >= 6 && password.length <= 15) {
+  const isValid = (input) => {
+    if (input.length >= 6 && input.length <= 15) {
       return true;
     }
     return false;
@@ -29,8 +29,12 @@ const RegisterTeam = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    if (!passwordIsValid(password)) {
+    if (!isValid(password)) {
       setError("Passwords must be between 6 and 15 characters.");
+      return;
+    }
+    if (!isValid(teamName)) {
+      setError("Team names must be between 6 and 15 characters.");
       return;
     }
     if (password !== repeatPassword) {

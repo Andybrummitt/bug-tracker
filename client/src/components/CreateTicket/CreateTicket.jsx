@@ -26,7 +26,6 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
         <div className="input-group-append">
           <textarea
             type="text"
-            maxLength="400"
             className="form-control"
             value={newTicket.description}
             onChange={(e) =>
@@ -38,7 +37,7 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             placeholder="Description"
             aria-label="Description"
             aria-describedby="basic-addon2"
-            maxLength="200"
+            maxLength="250"
           />
         </div>
         <div className={styles.selectInputsContainer}>

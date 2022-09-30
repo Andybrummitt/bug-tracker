@@ -10,9 +10,8 @@ const Ticket = require("../models/Ticket");
 const getProjects = asyncHandler(async (req, res, next) => {
   const { teamId } = req;
 
-  console.log(teamId)
   const team = await Team.findOne({ _id: teamId });
-  console.log(team)
+
   if (!team) {
     return next(ApiError.internalError("Something wen't wrong"));
   }
@@ -31,14 +30,23 @@ const getProjects = asyncHandler(async (req, res, next) => {
 const createProject = asyncHandler(async (req, res, next) => {
   const { newProject } = req.body;
   const { teamId, username } = req;
-  console.log(newProject);
   
+  //  BASIC CHECKS FOR INPUT LENGTH
   if (!newProject.title || !newProject.description) {
     return next(ApiError.badRequest("Please provide a project name and description."));
   }
 
+  if(newProject.title.length > 30 || newProject.description.length > 150){
+    return next(ApiError.badRequest("Project name or description is too long."))
+  }
+
   //  FIND TEAM AND CHECK IF TEAM ALREADY HAS PROJECT WITH PASSED NAME
   const team = await Team.findOne({ _id: teamId });
+
+  //  CHECK IF TOO MANY PROJECTS PER TEAM
+  if(team.projects.length > 4){
+    return next(ApiError.badRequest("Each team can only have up to 5 projects at a time."))
+  }
 
   const existingProject = await Project.findOne({
     team: { _id: team._id },

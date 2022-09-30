@@ -38,9 +38,10 @@ const Projects = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newProject.title) return setError("Please provide a project name");
+    if(projects.length > 4) return setError("Each team can only have up to 5 projects at a time.")
+    if (!newProject.title) return setError("Please provide a project name.");
     if (!newProject.description)
-      return setError("Please provide a project description");
+      return setError("Please provide a project description.");
     apiCall({
       url: `/api/projects`,
       method: `post`,

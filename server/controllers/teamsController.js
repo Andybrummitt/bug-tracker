@@ -8,6 +8,13 @@ const User = require("../models/User");
 const Project = require("../models/Project");
 const Ticket = require("../models/Ticket");
 
+const isValid = (input) => {
+  if (input.length >= 6 && input.length <= 15) {
+    return true;
+  }
+  return false;
+};
+
 //  Register Team
 //  POST /api/auth/team/register
 const registerTeam = asyncHandler(async (req, res, next) => {
@@ -25,6 +32,11 @@ const registerTeam = asyncHandler(async (req, res, next) => {
     return next(ApiError.badRequest("Please include all required fields."));
   }
 
+  //  CHECK TEAM NAME AND PASSWORD IS VALID LENGTH
+  if(!isValid(teamName) || !isValid(password)){
+    return next(ApiError.badRequest("Team names and passwords must be between 6 and 15 characters."))
+  }
+
   //  CHECK FOR DUPLICATES
   const duplicate = await Team.findOne({ teamName }).lean().exec();
 
@@ -39,11 +51,7 @@ const registerTeam = asyncHandler(async (req, res, next) => {
   //  CREATE TEAM AND STORE IN DB
   const teamObj = { teamName, password: hashedPass };
 
-  console.log('creating team')
-
   const team = await Team.create(teamObj);
-
-  console.log(team)
 
   //  LOG INTO TEAM PORTAL
   if (team) {
@@ -57,8 +65,6 @@ const registerTeam = asyncHandler(async (req, res, next) => {
 //  POST /api/auth/team/login
 const loginTeam = asyncHandler(async (req, res, next) => {
   const { teamName, password } = req.body;
-
-  console.log({teamName})
 
   //  CHECK VALUES FROM REQ.BODY
   if (!teamName || !password) {
@@ -79,8 +85,6 @@ const loginTeam = asyncHandler(async (req, res, next) => {
     return next(ApiError.unauthorized("Wrong team name or password."));
   }
 
-  console.log({teamName})
-
   //  SEND ACCESS TOKEN
   const accessToken = jwt.sign(
     { TeamName: teamName },
@@ -93,7 +97,6 @@ const loginTeam = asyncHandler(async (req, res, next) => {
 
 const deleteTeam = asyncHandler(async (req, res, next) => {
   const { teamId, username } = req;
-  console.log(teamId, username);
 
   //  CHECK IF TEAM
   const team = await Team.findOne({_id: teamId});

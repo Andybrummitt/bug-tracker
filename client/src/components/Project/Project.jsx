@@ -18,6 +18,7 @@ const Project = () => {
     priority: "Medium",
   });
   const [error, setError] = useState("");
+  const [ successMessage, setSuccessMessage ] = useState("");
   const [loading, setLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [ticketsInView, setTicketsInView] = useState([]);
@@ -81,9 +82,11 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccessMessage("");
+    setError("");
+    if(tickets.length > 29) return setError("Projects can only have up to 30 tickets at a time.")
     const { title, description, type, priority } = newTicket;
-    if (!title || !description || !type || !priority)
-      setError("Please fill in all required fields");
+    if (!title || !description || !type || !priority) return setError("Please fill in all required fields");
     apiCall({
       url: `/api/tickets/${params.projectName}`,
       method: `post`,
@@ -103,6 +106,7 @@ const Project = () => {
           priority: "Medium",
         });
         setTickets([...tickets, ticketData]);
+        setSuccessMessage("Ticket created.")
       })
       .catch((err) => {
         setError(err.message);
@@ -135,7 +139,8 @@ const Project = () => {
       ) : (
         <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
       )}
-      <p className="text-danger text-center">{error}</p>
+      <p className="text-danger text-center m-3">{error}</p>
+      <p className="text-success text-center m-3">{successMessage}</p>
       <CreateTicket
         newTicket={newTicket}
         setNewTicket={setNewTicket}
