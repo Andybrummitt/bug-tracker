@@ -6,7 +6,7 @@ const User = require("../models/User");
 const Ticket = require("../models/Ticket");
 
 //  GET TEAM'S PROJECTS
-//  GET /api/projects
+//  GET /api/projectsstava versandossu
 const getProjects = asyncHandler(async (req, res, next) => {
   const { teamId } = req;
 

@@ -3,7 +3,9 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
+import TicketGraphDisplay from "../TicketGraphDisplay/TicketGraphDisplay";
 import TicketsTable from "../TicketsTable/TicketsTable";
+import styles from "./tickets.module.scss";
 
 const Tickets = () => {
   const [error, setError] = useState("");
@@ -12,7 +14,7 @@ const Tickets = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageNumberArray, setPageNumberArray] = useState([]);
   const [loading, setLoading] = useState(true);
-  const ticketsPerPage = 2;
+  const ticketsPerPage = 5;
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const Tickets = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {pageNumberArray.length > 0 ? (
         <>
           <h4 className="m-3 text-center">Displaying All Team Tickets</h4>
@@ -89,6 +91,7 @@ const Tickets = () => {
         </>
       )}
       <p className="error-message">{error}</p>
+      <TicketGraphDisplay tickets={tickets} />
     </div>
   );
 };

@@ -39,11 +39,7 @@ const Navbar = () => {
                 <span>Bug - Tracker</span>
               </div>
             </Link>
-          ) : (
-            <div className={styles.title}>
-              <AiFillBug />
-            </div>
-          )}
+          ) : <div className="d-flex justify-content-center text-primary"><AiFillBug /><p className="ml-2">Bug - Tracker</p></div>}
         </li>
         {team ? (
           <li>{username ? <Link to="/tickets">Tickets</Link> : null}</li>

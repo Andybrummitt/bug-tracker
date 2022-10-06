@@ -7,12 +7,12 @@ const teamSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true }],
+    members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     password: {
       type: String,
       required: true,
     },
-    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project', unique: true }],
+    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }],
   },
   {
     timeStamps: true,

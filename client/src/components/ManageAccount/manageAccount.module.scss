@@ -1,0 +1,16 @@
+.container {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem auto;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 95vw;
+    border-radius: 0.5rem;
+}
+
+.pageContainer {
+    background: #ECF0F1;
+}

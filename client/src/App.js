@@ -17,11 +17,13 @@ import ManageAccount from "./components/ManageAccount/ManageAccount";
 
 function App() {
 
+  const { auth } = useContext(AuthContext);
+
   return (
-    <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh', height: '100%'}}>
+    <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh', height: '100%', background: "#ECF0F1"}}>
       <AuthProvider>
         <BrowserRouter>
-            <Navbar />
+          <Navbar />
           <Routes>
           <Route path='*' element={<NotFound />} />
             

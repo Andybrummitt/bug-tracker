@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import useLogout from "../../hooks/useLogout";
+import styles from "./manageAccount.module.scss";
 
 const ManageAccount = () => {
   const logout = useLogout();
@@ -52,10 +53,10 @@ const ManageAccount = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center">Manage Account</h1>
+    <div className={styles.pageContainer}>
+      <h2 className="text-center m-2">Manage Account</h2>
       {error && <p className="text-danger text-center m-3">{error}</p>}
-      <div className="m-5 d-flex flex-md-column justify-content-center w-50 mx-auto">
+      <div className={styles.container}>
         <h4 className="text-center m-2">Delete account</h4>
         <p className="text-warning text-center m-2">
           <strong>Warning:</strong>This action cannot be undone! This user will
@@ -65,7 +66,7 @@ const ManageAccount = () => {
           Delete User
         </button>
       </div>
-      <div className="m-5 d-flex flex-md-column justify-content-center w-50 mx-auto">
+      <div className={styles.container}>
         <h4 className="text-center m-2">Delete Team</h4>
         <p className="text-warning text-center m-2">
           <strong>Warning:</strong>This action cannot be undone! All of the the

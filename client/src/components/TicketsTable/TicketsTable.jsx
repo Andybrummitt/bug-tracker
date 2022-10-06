@@ -5,7 +5,8 @@ import styles from "./ticketsTable.module.scss";
 
 const TicketsTable = ({ ticketsInView, setTickets }) => {
   return (
-    <table className={`table table-bordered ${styles.table}`}>
+    <div className="table-responsive">
+    <table className={`table table-bordered table-dark ${styles.table}`}>
       <thead className="thead-dark">
         <tr>
           <th scope="col">Title</th>
@@ -21,6 +22,7 @@ const TicketsTable = ({ ticketsInView, setTickets }) => {
         })}
       </tbody>
     </table>
+    </div>
   );
 };
 

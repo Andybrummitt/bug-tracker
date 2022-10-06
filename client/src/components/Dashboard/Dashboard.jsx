@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import useLogout from "../../hooks/useLogout";
 import Projects from "../Projects/Projects";
-import TicketGraphDisplay from "../TicketGraphDisplay/TicketGraphDisplay";
 import styles from "./dashboard.module.scss";
 
 const Dashboard = () => {
@@ -22,7 +21,6 @@ const Dashboard = () => {
   return (
     <main className={styles.main}>
       <Projects />
-      <TicketGraphDisplay />
     </main>
   );
 };

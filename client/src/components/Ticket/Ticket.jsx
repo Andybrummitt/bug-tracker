@@ -55,7 +55,7 @@ const Ticket = ({ ticket, setTickets }) => {
 
   return (
     <tr>
-      <th scope="row">{ticket.title}</th>
+      <th scope="row"><p>{ticket.title}</p></th>
       <td>{ticket.description}</td>
       <td>{ticket.type}</td>
       <td>

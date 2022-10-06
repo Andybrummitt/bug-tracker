@@ -1,9 +1,17 @@
 .container {
     text-align: center;
-    padding: 1rem;
+    font-size: 0.8rem;
+    margin: 2rem auto;
 }
 
-// .chartContainer {
-//     width: 400px;
-//     height: auto;
-// }
+.chartContainer {
+    width: 280px;
+    height: auto;
+}
+
+
+@media screen and (min-width: 768px){
+    .chartContainer {
+        width: 400px;
+    }
+}

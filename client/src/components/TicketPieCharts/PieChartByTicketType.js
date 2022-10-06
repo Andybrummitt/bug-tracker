@@ -41,7 +41,7 @@ const PieChartByTicketType = ({ tickets }) => {
 
   return (
     <div className={styles.container}>
-      <h2>Tickets by Type</h2>
+      <h4 className="m-2">Tickets by Type</h4>
       <div className={styles.chartContainer}>
       <Pie data={data} />
       </div>

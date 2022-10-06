@@ -51,7 +51,7 @@ const PieChartByTicketPriority = ({ tickets }) => {
 
   return (
     <div className={styles.container}>
-      <h2>Tickets by Priority</h2>
+      <h4 className="m-2">Tickets by Priority</h4>
       <div className={styles.chartContainer}>
         <Pie data={data} />
       </div>

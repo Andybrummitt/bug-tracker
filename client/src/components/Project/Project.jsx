@@ -6,6 +6,7 @@ import CreateTicket from "../CreateTicket/CreateTicket";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
 import TicketsTable from "../TicketsTable/TicketsTable";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import styles from "./project.module.scss";
 
 const Project = () => {
   const params = useParams();
@@ -24,7 +25,7 @@ const Project = () => {
   const [ticketsInView, setTicketsInView] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageNumberArray, setPageNumberArray] = useState([]);
-  const ticketsPerPage = 2;
+  const ticketsPerPage = 5;
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -114,10 +115,10 @@ const Project = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-center mt-2 mb-5">{`Project: ${decodeURI(
+    <div className={styles.container}>
+      <h2 className="text-center m-3 mb-4">{decodeURI(
         params.projectName
-      )}`}</h2>
+      )}</h2>
       {pageNumberArray.length > 0 ? (
         <>
           <h4 className="text-center m-3">Project Tickets</h4>
