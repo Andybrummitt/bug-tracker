@@ -4,10 +4,8 @@
   "description": "Bug Tracker Application to track and organize tickets for new features and bugs in an application.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "cd client && npm install --dev && cd ../server && npm install --dev",
-    "build": "cd client && npm run build",
-    "start": "cd server && node server.js"
+    "start": "cd server && node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
