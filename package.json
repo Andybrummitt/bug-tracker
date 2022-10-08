@@ -4,7 +4,7 @@
   "description": "Bug Tracker Application to track and organize tickets for new features and bugs in an application.",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js --prefix server",
+    "start": "cd server && node server.js",
         "install-client": "cd client && npm install && cd ..",
         "install-server": "cd server && npm install && cd .. ",
         "heroku-postbuild": "npm run install-client && npm run install-server"
