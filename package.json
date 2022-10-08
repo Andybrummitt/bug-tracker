@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Andybrummitt/bug-tracker/issues"
   },
-  "homepage": "https://github.com/Andybrummitt/bug-tracker#readme"
+  "homepage": "https://github.com/Andybrummitt/bug-tracker#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
 }
