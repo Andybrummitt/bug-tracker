@@ -4,7 +4,10 @@
   "description": "Bug Tracker Application to track and organize tickets for new features and bugs in an application.",
   "main": "index.js",
   "scripts": {
-    "start": "cd server && node server.js"
+    "start": "node server.js --prefix server",
+        "install-client": "cd client && npm install && cd ..",
+        "install-server": "cd server && npm install && cd .. ",
+        "heroku-postbuild": "npm run install-client && npm run install-server"
   },
   "repository": {
     "type": "git",
@@ -15,8 +18,5 @@
   "bugs": {
     "url": "https://github.com/Andybrummitt/bug-tracker/issues"
   },
-  "homepage": "https://github.com/Andybrummitt/bug-tracker#readme",
-  "dependencies": {
-    "dotenv": "^16.0.3"
-  }
+  "homepage": "https://github.com/Andybrummitt/bug-tracker#readme"
 }
