@@ -21,19 +21,18 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cookieParser());
 
+
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/projects', require('./routes/projectRoutes'));
+app.use('/api/tickets', require('./routes/ticketRoutes'));
+
 if(process.env.NODE_ENV === 'production') {
-    console.log('woo')
     app.use(express.static('../client/build'));
     
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
       })
 }
-
-
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/projects', require('./routes/projectRoutes'));
-app.use('/api/tickets', require('./routes/ticketRoutes'));
 
 app.use(apiErrorHandler);
 
