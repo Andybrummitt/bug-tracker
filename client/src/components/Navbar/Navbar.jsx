@@ -26,25 +26,29 @@ const Navbar = () => {
           ) : team ? (
             <>
               <p>Team: {team}</p>
-              <Link to="/account">Manage Account</Link>
             </>
           ) : null}
         </div>
       <ul className={styles.navLinks}>
         <li>
-          {username ? (
+          {!team ? (
+            <div className={"d-flex justify-content-center text-primary"}><AiFillBug /><p className="ml-2">Bug - Tracker</p></div>
+          ) : (
             <Link to="/">
               <div className={styles.title}>
                 <AiFillBug />
                 <span>Bug - Tracker</span>
               </div>
             </Link>
-          ) : <div className="d-flex justify-content-center text-primary"><AiFillBug /><p className="ml-2">Bug - Tracker</p></div>}
+          )}
         </li>
-        {team ? (
-          <li>{username ? <Link to="/tickets">Tickets</Link> : null}</li>
-        ) : null}
-        <li>{team ? <button onClick={signOut}>Sign Out</button> : null}</li>
+        {team && username ? (
+          <>
+            <li><Link to="/tickets">Tickets</Link></li>
+            <li><button onClick={signOut}>Sign Out</button></li>
+          </>
+        ) : team && !username ? <li>{team ? <button onClick={signOut}>Sign Out</button> : null}</li> : null}
+        
       </ul>
     </nav>
   );

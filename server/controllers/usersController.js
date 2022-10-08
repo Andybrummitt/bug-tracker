@@ -99,7 +99,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
             "team": user.team
         }
     }, process.env.USER_ACCESS_TOKEN_SECRET,
-        { expiresIn: '20s' }
+        { expiresIn: "15m" }
     );
 
     //  CREATE REFRESH TOKEN
@@ -112,8 +112,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
     //  SET COOKIE ON RES HEADER WITH REFRESH TOKEN
     res.cookie('jwt', refreshToken, {
         httpOnly: true,
-        //secure: true, <---------------  UNCOMMENT IN DEPLOYMENT   <-----------------
-        // sameSite: 'None',
+        secure: true,
+        sameSite: 'None',
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
