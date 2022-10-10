@@ -3,6 +3,7 @@ const ApiError = require('../error/apiError');
 
 const verifyUserJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
+
     if(!authHeader?.startsWith('Bearer ')){
         return next(ApiError.unauthorized('Unauthorized.'));
     }

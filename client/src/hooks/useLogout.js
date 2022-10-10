@@ -5,20 +5,25 @@ import { AuthContext } from "../context/AuthProvider"
 import { setUser, setUserTeam } from "../redux/user";
 
 const useLogout = () => {
-    const { setAuth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const dispatch = useDispatch();
+    let token = auth.userAccessToken;
 
-    const logout = async () => {
-        setAuth({});
-        dispatch(setUser(''));
-        dispatch(setUserTeam(''));
-        
+    const logout = async () => {       
         try {
-            const response = await axios('/api/auth/user/logout', {
+            const response = await axios.get('/api/auth/user/logout', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
                 withCredentials: true
+                }
             });
+            setAuth({});
+            dispatch(setUser(''));
+            dispatch(setUserTeam(''));
+            console.log(response)
         }
-        catch(err){
+        catch(err){ 
             console.error(err);
         }
     }
