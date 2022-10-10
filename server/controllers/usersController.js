@@ -170,8 +170,9 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     res.clearCookie('jwt', { 
         httpOnly: true,
-        //secure: true, <---------------  UNCOMMENT IN DEPLOYMENT   <-----------------
-        // sameSite: 'None'
+        //  COMMENT IN PRODUCTION - UNCOMMENT IN DEPLOYMENT
+        secure: true, 
+        sameSite: 'None'
      })
      res.json({ message: 'Cleared Cookie' });
 });
