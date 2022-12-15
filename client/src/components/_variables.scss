@@ -1,0 +1,53 @@
+$primary: #BF4E30;
+$dark-secondary: #2541B2;
+$secondary: #00A7E1;
+$dark-bg: #1C1C1C;
+$off-white: #FFFFFA;
+
+
+@mixin authFormContainer {
+    margin: 2rem 0;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background: $off-white;
+    border-radius: 0.5rem;
+    width: 90%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        padding: 1rem;
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        div {
+            padding: 1rem;
+            width: 100%;
+            input {
+                width: 100%;
+                background: transparent;
+                border: 1px solid black;
+                padding: 0.4rem;
+                border-radius: 0.25rem;
+            }
+        }
+
+        button {
+            width: 100%;
+            background: $primary;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            background: $dark-secondary;
+            border: none;
+            text-transform: uppercase;
+            color: white;
+            cursor: pointer;
+        }
+    }
+    
+}

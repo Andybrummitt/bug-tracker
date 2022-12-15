@@ -57,6 +57,7 @@ const ManageAccount = () => {
       <h2 className="text-center m-2">Manage Account</h2>
       {error && <p className="text-danger text-center m-3">{error}</p>}
       <div className={styles.container}>
+        <button onClick={signOut}>Sign Out</button>
         <h4 className="text-center m-2">Delete account</h4>
         <p className="text-warning text-center m-2">
           <strong>Warning:</strong>This action cannot be undone! This user will

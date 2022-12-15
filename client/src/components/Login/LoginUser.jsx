@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { setUser } from "../../redux/user";
 import styles from "./login.module.scss";
-import AuthLayout from "../AuthLayout/AuthLayout";
 
 const LoginUser = () => {
   const [username, setUsername] = useState("");
@@ -16,7 +15,7 @@ const LoginUser = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (auth.userAccessToken) navigate("/");
+    if (auth.userAccessToken) navigate("/dashboard");
   }, [auth]);
 
   const handleSubmit = (e) => {
@@ -46,15 +45,15 @@ const LoginUser = () => {
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
-        <h1 className="m-3 text-center">Login User</h1>
-        {error && <p className="mt-2 mb-2 text-center text-danger">{error}</p>}
+        <h1 >Login User</h1>
+        {error && <p className={styles.errorMessage}>{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="form-outline mb-4">
-            <label className="form-label" htmlFor="username">
+          <div>
+            <label htmlFor="username">
               <input
                 type="username"
                 id="username"
-                className="form-control"
+               
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -63,11 +62,11 @@ const LoginUser = () => {
             </label>
           </div>
           <div className="form-outline mb-4">
-            <label className="form-label" htmlFor="password">
+            <label htmlFor="password">
               <input
                 type="password"
                 id="password"
-                className="form-control"
+                
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -80,10 +79,10 @@ const LoginUser = () => {
               <a href="#!">Forgot password?</a>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary btn-block mb-4">
+          <button type="submit">
             Sign in
           </button>
-          <div className="text-center">
+          <div >
             <p>
               Not a member? <Link to="/register">Register</Link>
             </p>
@@ -94,4 +93,4 @@ const LoginUser = () => {
   );
 };
 
-export default AuthLayout(LoginUser);
+export default LoginUser;

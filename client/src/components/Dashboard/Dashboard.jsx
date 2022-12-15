@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import useLogout from "../../hooks/useLogout";
+import Navbar from "../Navbars/DashboardNavbar/Navbar";
 import Projects from "../Projects/Projects";
 import styles from "./dashboard.module.scss";
 
@@ -20,6 +21,7 @@ const Dashboard = () => {
 
   return (
     <main className={styles.main}>
+      <Navbar />
       <Projects />
     </main>
   );

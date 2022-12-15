@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { setUser } from "../../redux/user";
 import styles from "./register.module.scss";
-import AuthLayout from "../AuthLayout/AuthLayout";
 
 const RegisterUser = () => {
   const [username, setUsername] = useState("");
@@ -18,7 +17,7 @@ const RegisterUser = () => {
 
   useEffect(() => {
     if (auth?.userAccessToken) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [auth]);
 
@@ -68,15 +67,14 @@ const RegisterUser = () => {
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
-        <h1 className="m-3 text-center">Register User</h1>
-        {error && <p className="mt-2 mb-2 text-center text-danger">{error}</p>}
+        <h1>Register User</h1>
+        {error && <p className={styles.errorMessage}>{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="form-outline mb-4">
-            <label className="form-label" htmlFor="username">
+          <div>
+            <label htmlFor="username">
               <input
                 type="username"
                 id="username"
-                className="form-control"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -84,12 +82,11 @@ const RegisterUser = () => {
               />
             </label>
           </div>
-          <div className="form-outline mb-4">
-            <label className="form-label" htmlFor="password">
+          <div>
+            <label htmlFor="password">
               <input
                 type="password"
                 id="password"
-                className="form-control"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -97,12 +94,11 @@ const RegisterUser = () => {
               />
             </label>
           </div>
-          <div className="form-outline mb-4">
-            <label className="form-label" htmlFor="repeat-password">
+          <div>
+            <label htmlFor="repeat-password">
               <input
                 type="password"
                 id="repeat-password"
-                className="form-control"
                 placeholder="Repeat Password"
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.target.value)}
@@ -110,10 +106,10 @@ const RegisterUser = () => {
               />
             </label>
           </div>
-          <button type="submit" className="btn btn-primary btn-block mb-4">
+          <button type="submit">
             Sign in
           </button>
-          <div className="text-center">
+          <div>
             <p>
               Already a member? <Link to="/login">Login</Link>
             </p>
@@ -124,4 +120,4 @@ const RegisterUser = () => {
   );
 };
 
-export default AuthLayout(RegisterUser);
+export default RegisterUser;

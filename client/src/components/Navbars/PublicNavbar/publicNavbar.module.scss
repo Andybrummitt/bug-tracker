@@ -1,0 +1,36 @@
+.nav {
+    margin: 0.5rem;
+    ul {
+        display: flex;
+        justify-content: space-between;
+    }
+    .authLinks {
+        display: flex;
+        justify-content: space-around;
+        button {
+            padding: 0.25rem;
+            background: transparent;
+            border: 1px solid #F64C72;
+            border-radius: 0;
+            a {
+                color: #F64C72;
+                text-decoration: none;
+            }
+
+        }
+    }
+    button:first-child {
+        margin-right: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .nav {
+        font-size: 1.2rem;
+        margin: 1rem;
+
+        button:first-child {
+            margin-right: 2rem;
+        }
+    }
+}
