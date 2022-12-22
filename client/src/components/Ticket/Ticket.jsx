@@ -28,7 +28,6 @@ const Ticket = ({ ticket, setTickets }) => {
         setSuccessMessage(res.data);
       })
       .catch((err) => {
-        console.log(err)
         setError(err)
       });
   };
@@ -36,39 +35,39 @@ const Ticket = ({ ticket, setTickets }) => {
   const priorityColor = (priority) => {
     switch (priority) {
       case "Low": {
-        return "bg-info";
+        return "low-priority";
       }
       case "Medium": {
-        return "bg-primary";
+        return "medium-priority";
       }
       case "High": {
-        return "bg-warning";
+        return "high-priority";
       }
       case "Urgent": {
-        return "bg-danger";
+        return "urgent-priority";
       }
       default: {
-        return "bg-primary";
+        return "medium-priority";
       }
     }
   };
 
   return (
     <tr>
-      <th scope="row"><p>{ticket.title}</p></th>
-      <td>{ticket.description}</td>
+      <td scope="row"><p>{ticket.title}</p></td>
+      <td><p>{ticket.description}</p></td>
       <td>{ticket.type}</td>
       <td>
-        <span
-          className={`badge badge-primary badge-pill ${priorityColor(
+        <p
+          className={`${priorityColor(
             ticket.priority
           )}`}
         >
           {ticket.priority}
-        </span>
+        </p>
       </td>
       <td>
-        <button className="btn btn-danger" onClick={deleteTicket}>
+        <button onClick={deleteTicket}>
           Delete
         </button>
       </td>

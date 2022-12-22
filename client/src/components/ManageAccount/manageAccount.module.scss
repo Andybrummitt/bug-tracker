@@ -1,16 +1,37 @@
+@import "../variables";
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signOutBtn {
+    border: none;
+    color: white;
+    background: $dark-secondary;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 1.2rem;
+    margin: 1rem;
+}
+
 .container {
     max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 4rem auto;
+    margin: 1rem auto;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     width: 95vw;
     border-radius: 0.5rem;
+
+    button {
+        @extend .signOutBtn;
+        background: $accent;
+    }
 }
 
-.pageContainer {
-    background: #ECF0F1;
-}

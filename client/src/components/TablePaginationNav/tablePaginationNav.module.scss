@@ -1,5 +1,30 @@
+@import "../variables";
+
 .ul {
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 1rem;
+    li:first-child {
+        border-radius: 1rem 0 0 1rem;
+        border: 1px solid $dark-bg;
+        span {
+            padding-left: 0.25rem;
+        }
+    }
+    li:last-child {
+        border-radius: 0 1rem 1rem 0;
+        border: 1px solid $dark-bg;
+        span {
+            padding-right: 0.25rem;
+        }
+    }
+    li {
+        padding: 0.5rem;
+        margin-left: -1px;
+        margin-bottom: -1px;
+        border: 1px solid $dark-bg;
+    }
 }
 
 .navContainer {

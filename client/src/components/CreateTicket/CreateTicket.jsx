@@ -4,12 +4,11 @@ import styles from "./createTicket.module.scss";
 const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
   return (
     <div className={styles.container}>
-      <h2 className="mt-3 mb-2">Create ticket</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group mb-3">
+      <h2>Create ticket</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div>
           <input
             type="text"
-            className="form-control"
             value={newTicket.title}
             onChange={(e) =>
               setNewTicket((newTicket) => ({
@@ -19,14 +18,12 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             }
             placeholder="Title"
             aria-label="Title"
-            aria-describedby="basic-addon2"
             maxLength="30"
           />
         </div>
-        <div className="input-group-append">
+        <div>
           <textarea
             type="text"
-            className="form-control"
             value={newTicket.description}
             onChange={(e) =>
               setNewTicket((newTicket) => ({
@@ -36,18 +33,14 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             }
             placeholder="Description"
             aria-label="Description"
-            aria-describedby="basic-addon2"
             maxLength="250"
           />
         </div>
-        <div className={styles.selectInputsContainer}>
-          <div className="input-group mb-3">
-            <label htmlFor="priority-range" className="form-label">
-              Type of ticket
-            </label>
+        <div className="flex-row">
+          <div className={styles.inputSelectContainer}>
+            <label htmlFor="priority-range">Type of ticket</label>
             <select
-              className="form-select form-select-lg mb-3"
-              aria-label=".form-select-lg example"
+              aria-label="ticket-type"
               value={newTicket.type}
               onChange={(e) =>
                 setNewTicket((newTicket) => ({
@@ -60,14 +53,10 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
               <option value="Feature">Feature</option>
             </select>
           </div>
-
-          <div className="input-group mb-3">
-            <label htmlFor="priority-range" className="form-label">
-              Priority
-            </label>
+          <div className={styles.inputSelectContainer}>
+            <label htmlFor="priority-range">Priority</label>
             <select
-              className="form-select form-select-lg mb-3"
-              aria-label=".form-select-lg example"
+              aria-label="ticket-priority"
               value={newTicket.priority}
               onChange={(e) =>
                 setNewTicket((newTicket) => ({
@@ -83,10 +72,9 @@ const CreateTicket = ({ setNewTicket, newTicket, handleSubmit }) => {
             </select>
           </div>
         </div>
-
-        <button className="btn btn-primary" type="Submit">
-          Create Ticket
-        </button>
+        <div>
+          <button type="Submit">Create Ticket</button>
+        </div>
       </form>
     </div>
   );

@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import ProjectsList from "../ProjectsList/ProjectsList";
+import "../_variables.scss";
 import styles from "./projects.module.scss";
-import PropagateLoader from "react-spinners/PropagateLoader";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -12,7 +13,7 @@ const Projects = () => {
     description: "",
   });
   const [error, setError] = useState("");
-  const [ loading, setLoading ] = useState(true);
+  const [loading, setLoading] = useState(true);
   const { auth, setAuth } = useContext(AuthContext);
   const apiCall = useAxiosWithAuth();
 
@@ -38,7 +39,8 @@ const Projects = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(projects.length > 4) return setError("Each team can only have up to 5 projects at a time.")
+    if (projects.length > 4)
+      return setError("Each team can only have up to 5 projects at a time.");
     if (!newProject.title) return setError("Please provide a project name.");
     if (!newProject.description)
       return setError("Please provide a project description.");
@@ -58,68 +60,62 @@ const Projects = () => {
         setProjects([...projects, projectData]);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data)
       });
   };
   return (
     <div>
       {projects.length < 1 && loading === false ? (
-        <p className="text-center m-3">
+        <p className="text-center-padded">
           Your team doesn't seem to have any active projects at the moment
         </p>
       ) : projects.length < 1 && loading === true ? (
-        <div className="text-center m-3"><PropagateLoader /></div>
-      ) :
-       (
+        <div>
+          <PropagateLoader />
+        </div>
+      ) : (
         <ProjectsList projects={projects} setProjects={setProjects} />
       )}
-      <div className="new-project-container p-2">
-        {error ? <p className="error">{error}</p> : null}
-        <form className={styles.formContainer}>
-        <p className="m-3">Add a new project</p>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            value={newProject.title}
-            onChange={(e) =>
-              setNewProject((project) => ({
-                ...project,
-                title: e.target.value,
-              }))
-            }
-            placeholder="Project Name"
-            aria-label="Project Name"
-            aria-describedby="basic-addon2"
-            maxLength="30"
-          />
-        </div>
-        <div className="input-group mb-3">
-          <textarea
-            type="text"
-            className="form-control"
-            value={newProject.description}
-            onChange={(e) =>
-              setNewProject((project) => ({
-                ...project,
-                description: e.target.value,
-              }))
-            }
-            placeholder="Project Description"
-            aria-label="Project Description"
-            aria-describedby="basic-addon2"
-            maxLength="150"
-          />
-        </div>
-
-        <button
-          onClick={handleSubmit}
-          className="btn btn-primary"
-          type="submit"
-        >
-          Add Project
-        </button>
-      </form>
+      <div className={styles.formContainer}>
+        {error ? <p className="error-message">{error}</p> : null}
+        <form>
+          <h2>Add a Project</h2>
+          <div>
+            <input
+              type="text"
+              value={newProject.title}
+              onChange={(e) =>
+                setNewProject((project) => ({
+                  ...project,
+                  title: e.target.value,
+                }))
+              }
+              placeholder="Project Name"
+              aria-label="Project Name"
+              maxLength="30"
+            />
+          </div>
+          <div>
+            <textarea
+              type="text"
+              value={newProject.description}
+              onChange={(e) =>
+                setNewProject((project) => ({
+                  ...project,
+                  description: e.target.value,
+                }))
+              }
+              placeholder="Project Description"
+              aria-label="Project Description"
+              maxLength="150"
+            />
+          </div>
+          <div>
+            <button onClick={handleSubmit} type="submit">
+              Add Project
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

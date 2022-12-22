@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../../context/AuthProvider";
@@ -40,39 +41,34 @@ const ProjectsList = ({ projects, setProjects }) => {
 
   return (
     <div>
-      <h2 className="text-center m-3">Projects</h2>
-      <p className="text-success text-center">
-        {successMessage && successMessage}
-      </p>
-      <p className="text-danger text-center">{error && error.message}</p>
-      <div className="table-responsive">
-        <table className={`table table-bordered table-dark ${styles.table}`}>
-          <thead className="thead-dark">
+      <h1 className="text-center-padded">Projects</h1>
+      <p>{successMessage && successMessage}</p>
+      <p>{error && error.message}</p>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
             <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Description</th>
-              <th scope="col">Actions</th>
+              <th scope="col">Project</th>
+              <th scope="col">View</th>
+              <th scope="col">Remove</th>
             </tr>
           </thead>
           <tbody>
             {projects.map((project) => {
               return (
                 <tr key={uuidv4()}>
-                  <th scope="row">{project.title}</th>
-                  <td>{project.description}</td>
+                  <td>{project.title}</td>
                   <td>
-                    <div className="d-flex justify-content-between">
-                      <button
-                        className="btn btn-primary mr-1"
-                        onClick={() => handleViewProject(project)}
-                      >
-                        View Project
+                    <div>
+                      <button onClick={() => handleViewProject(project)}>
+                        Open
                       </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => deleteProject(project)}
-                      >
-                        Delete Project
+                    </div>
+                  </td>
+                  <td>
+                    <div className={styles.deleteButtonContainer}>
+                      <button onClick={() => deleteProject(project)}>
+                        &nbsp;X&nbsp;
                       </button>
                     </div>
                   </td>

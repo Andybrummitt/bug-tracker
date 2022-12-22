@@ -1,8 +1,20 @@
+@import "../../variables";
+
+.logoContainer {
+    img {
+        height: 40px;
+        width: auto;
+    }
+}
+
 .nav {
-    margin: 0.5rem;
+    border-bottom: 0.1rem solid $accent;
     ul {
+        margin: 0.5rem;
+        height: 40px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .authLinks {
         display: flex;
@@ -10,10 +22,11 @@
         button {
             padding: 0.25rem;
             background: transparent;
-            border: 1px solid #F64C72;
+            border: 1px solid $accent;
             border-radius: 0;
             a {
-                color: #F64C72;
+                color: $accent;
+                font-weight: bold;
                 text-decoration: none;
             }
 
@@ -31,6 +44,17 @@
 
         button:first-child {
             margin-right: 2rem;
+        }
+    }
+    .authLinks {
+        button {
+            font-size: 1.2rem;
+        }
+    }
+    .logoContainer {
+        img {
+            height: 60px;
+            width: auto;
         }
     }
 }

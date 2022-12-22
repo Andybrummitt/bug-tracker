@@ -5,9 +5,9 @@ import styles from "./ticketsTable.module.scss";
 
 const TicketsTable = ({ ticketsInView, setTickets }) => {
   return (
-    <div className="table-responsive">
-    <table className={`table table-bordered table-dark ${styles.table}`}>
-      <thead className="thead-dark">
+    <div className={styles.tableWrapper}>
+    <table className={styles.table}>
+      <thead>
         <tr>
           <th scope="col">Title</th>
           <th scope="col">Description</th>

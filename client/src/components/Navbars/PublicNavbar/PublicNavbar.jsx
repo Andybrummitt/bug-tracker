@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import bugTrackerLogo from "../../../images/bug-tracker-logo-black.png";
 import styles from "./publicNavbar.module.scss";
 
 const PublicNavbar = () => {
@@ -8,17 +9,21 @@ const PublicNavbar = () => {
     <nav className={styles.nav}>
       <ul>
         <li>
-          <span>Bug-Tracker</span>
+          <Link to="/">
+            <div className={styles.logoContainer}>
+              <img src={bugTrackerLogo} alt="logo" />
+            </div>
+          </Link>
         </li>
         {/* IF IN LANDING PAGE DISPLAY LINKS */}
         <li>
           {location.pathname === "/" ? (
             <div className={styles.authLinks}>
               <button>
-                <a href="/team/register">SIGN UP</a>
+                <Link to="/team/register">SIGN UP</Link>
               </button>
               <button>
-                <a href="/team/login">LOG IN</a>
+                <Link to="/team/login">LOG IN</Link>
               </button>
             </div>
           ) : null}

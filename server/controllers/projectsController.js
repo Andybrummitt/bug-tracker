@@ -44,7 +44,7 @@ const createProject = asyncHandler(async (req, res, next) => {
   const team = await Team.findOne({ _id: teamId });
 
   //  CHECK IF TOO MANY PROJECTS PER TEAM
-  if(team.projects.length > 4){
+  if(team.projects.length > 10){
     return next(ApiError.badRequest("Each team can only have up to 5 projects at a time."))
   }
 
@@ -82,6 +82,9 @@ const deleteProject = asyncHandler(async (req, res, next) => {
   const { teamId, username } = req;
   const { projectId } = req.params;
 
+  //  FIND TEAM
+  const team = await Team.findOne({ _id: teamId })
+
   //  FIND USER
   const user = await User.findOne({ team: { _id: teamId }, username });
 
@@ -96,6 +99,9 @@ const deleteProject = asyncHandler(async (req, res, next) => {
       createdBy: {_id: user._id},
     });
   }
+
+  team.projects.pull(projectId);
+  team.save();
 
   await Project.findOneAndDelete({_id: projectId});
 

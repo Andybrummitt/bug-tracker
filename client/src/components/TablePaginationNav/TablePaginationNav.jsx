@@ -22,30 +22,30 @@ const TablePaginationNav = ({
 
   return (
     <div className={styles.navContainer}>
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul className={`pagination ${styles.ul}`}>
         <li className="page-item" onClick={() => setPrevPage(currentPage)}>
-          <a className="page-link" aria-label="Previous">
+          <a aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
-            <span className="sr-only">Previous</span>
+            <span>Prev</span>
           </a>
         </li>
         {pageNumberArray.map((pageNumber) => (
           <li
             key={uuid()}
             className={
-              pageNumber === currentPage ? "page-item active" : "page-item"
+              pageNumber === currentPage ? "active-page" : ""
             }
           >
-            <p className="page-link" onClick={() => setCurrentPage(pageNumber)}>
+            <p onClick={() => setCurrentPage(pageNumber)}>
               {pageNumber}
             </p>
           </li>
         ))}
-        <li className="page-item" onClick={() => setNextPage(currentPage)}>
-          <a className="page-link" aria-label="Next">
+        <li onClick={() => setNextPage(currentPage)}>
+          <a aria-label="Next">
+            <span>Next</span>
             <span aria-hidden="true">&raquo;</span>
-            <span className="sr-only">Next</span>
           </a>
         </li>
       </ul>

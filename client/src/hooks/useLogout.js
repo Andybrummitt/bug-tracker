@@ -21,7 +21,6 @@ const useLogout = () => {
             setAuth({});
             dispatch(setUser(''));
             dispatch(setUserTeam(''));
-            console.log(response)
         }
         catch(err){ 
             console.error(err);

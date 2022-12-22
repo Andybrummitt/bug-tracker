@@ -8,7 +8,6 @@ import { AuthContext } from "../context/AuthProvider";
 import useRefreshToken from "./useRefreshToken";
 
 const axios = require("axios");
-const { useState } = require("react");
 
 const useAxiosWithAuth = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -35,7 +34,6 @@ const useAxiosWithAuth = () => {
           resolve(res);
         })
         .catch((err) => {
-          console.log(err)
           if (apiCalls < 1 && err.response.status === 403) {
             refresh().then((userAccessToken) => {
               apiCalls += 1;

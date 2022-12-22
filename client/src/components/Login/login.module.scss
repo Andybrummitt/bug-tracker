@@ -7,7 +7,10 @@
 }
 
 .formContainer {
-    @include authFormContainer;
+    @include formContainer;
+    form {
+        @include form;
+    }
 }
 
 .errorMessage {

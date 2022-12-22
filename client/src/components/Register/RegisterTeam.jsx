@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
@@ -8,6 +9,7 @@ import PublicNavbar from "../Navbars/PublicNavbar/PublicNavbar";
 import styles from "./register.module.scss";
 
 const RegisterTeam = () => {
+  const inputRef = useRef(null);
   const { auth, setAuth } = useContext(AuthContext);
   const [teamName, setTeamName] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +28,10 @@ const RegisterTeam = () => {
   useEffect(() => {
     if (auth.teamAccessToken) navigate("/login");
   }, [auth]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +61,6 @@ const RegisterTeam = () => {
         }));
       })
       .catch((err) => {
-        console.log(err);
         setError(err.response.data);
       });
   };
@@ -71,6 +76,7 @@ const RegisterTeam = () => {
             <div>
               <label htmlFor="teamname">
                 <input
+                  ref={inputRef}
                   id="teamname"
                   placeholder="Team Name"
                   value={teamName}

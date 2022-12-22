@@ -6,6 +6,7 @@ import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
 import TicketGraphDisplay from "../TicketGraphDisplay/TicketGraphDisplay";
 import TicketsTable from "../TicketsTable/TicketsTable";
 import styles from "./tickets.module.scss";
+import Navbar from "../Navbars/DashboardNavbar/Navbar.jsx";
 
 const Tickets = () => {
   const [error, setError] = useState("");
@@ -66,33 +67,41 @@ const Tickets = () => {
   };
 
   return (
-    <div className={styles.container}>
-      {pageNumberArray.length > 0 ? (
-        <>
-          <h4 className="m-3 text-center">Displaying All Team Tickets</h4>
-          <TablePaginationNav
-            pageNumberArray={pageNumberArray}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
-      ) : null}
-      {ticketsInView.length < 1 && loading === false ? (
-        <p className="text-center m-3">
-          Your team does not have any tickets at the moment
-        </p>
-      ) : ticketsInView.length < 1 && loading === true ? (
-        <div className="text-center m-3">
-          <PropagateLoader />
-        </div>
-      ) : (
-        <>
-          <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
-        </>
-      )}
-      <p className="error-message">{error}</p>
-      <TicketGraphDisplay tickets={tickets} />
-    </div>
+    <main className={styles.container}>
+      <header>
+        <Navbar />
+      </header>
+      <div className={styles.container}>
+        {pageNumberArray.length > 0 ? (
+          <>
+            <h4 className="text-center-padded">Displaying All Team Tickets</h4>
+            <TablePaginationNav
+              pageNumberArray={pageNumberArray}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </>
+        ) : null}
+        {ticketsInView.length < 1 && loading === false ? (
+          <p className="text-center-padded">
+            Your team does not have any tickets at the moment
+          </p>
+        ) : ticketsInView.length < 1 && loading === true ? (
+          <div className="text-center-padded">
+            <PropagateLoader />
+          </div>
+        ) : (
+          <>
+            <TicketsTable
+              ticketsInView={ticketsInView}
+              setTickets={setTickets}
+            />
+          </>
+        )}
+        <p className="error-message">{error}</p>
+        <TicketGraphDisplay tickets={tickets} />
+      </div>
+    </main>
   );
 };
 

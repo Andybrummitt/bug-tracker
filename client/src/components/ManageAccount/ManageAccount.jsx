@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import useLogout from "../../hooks/useLogout";
+import Navbar from "../Navbars/DashboardNavbar/Navbar";
 import styles from "./manageAccount.module.scss";
 
 const ManageAccount = () => {
@@ -53,13 +54,17 @@ const ManageAccount = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <h2 className="text-center m-2">Manage Account</h2>
-      {error && <p className="text-danger text-center m-3">{error}</p>}
+    <div>
+    <header>
+      <Navbar/>
+    </header>
+    <main className={styles.pageContainer}>
+      <h2 className="text-center-padded">Manage Account</h2>
+      {error && <p className="error-message">{error}</p>}
+      <button  className={styles.signOutBtn} onClick={signOut}>Sign Out</button>
       <div className={styles.container}>
-        <button onClick={signOut}>Sign Out</button>
-        <h4 className="text-center m-2">Delete account</h4>
-        <p className="text-warning text-center m-2">
+        <h3 className="text-center-padded">Delete account</h3>
+        <p className="text-center-padded">
           <strong>Warning:</strong>This action cannot be undone! This user will
           be deleted.
         </p>
@@ -68,8 +73,8 @@ const ManageAccount = () => {
         </button>
       </div>
       <div className={styles.container}>
-        <h4 className="text-center m-2">Delete Team</h4>
-        <p className="text-warning text-center m-2">
+        <h3 className="text-center-padded">Delete Team</h3>
+        <p className="text-center-padded">
           <strong>Warning:</strong>This action cannot be undone! All of the the
           team's users, tickets and projects will be deleted!
         </p>
@@ -77,6 +82,7 @@ const ManageAccount = () => {
           Delete Team
         </button>
       </div>
+    </main>
     </div>
   );
 };

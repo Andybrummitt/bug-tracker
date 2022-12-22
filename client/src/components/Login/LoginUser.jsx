@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import { setUser } from "../../redux/user";
+import PublicNavbar from "../Navbars/PublicNavbar/PublicNavbar";
 import styles from "./login.module.scss";
 
 const LoginUser = () => {
+  const inputRef = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,6 +19,10 @@ const LoginUser = () => {
   useEffect(() => {
     if (auth.userAccessToken) navigate("/dashboard");
   }, [auth]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,57 +43,56 @@ const LoginUser = () => {
         }));
       })
       .catch((err) => {
-        console.log(err);
         setError(err.response.data);
       });
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formContainer}>
-        <h1 >Login User</h1>
-        {error && <p className={styles.errorMessage}>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">
-              <input
-                type="username"
-                id="username"
-               
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                maxLength={15}
-              />
-            </label>
-          </div>
-          <div className="form-outline mb-4">
-            <label htmlFor="password">
-              <input
-                type="password"
-                id="password"
-                
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                maxLength={15}
-              />
-            </label>
-          </div>
-          <div className="row mb-4">
-            <div className="col">
-              <a href="#!">Forgot password?</a>
+    <div>
+      <PublicNavbar />
+      <div className={styles.container}>
+        <div className={styles.formContainer}>
+          <h1>Login User</h1>
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username">
+                <input
+                  ref={inputRef}
+                  type="username"
+                  id="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  maxLength={15}
+                />
+              </label>
             </div>
-          </div>
-          <button type="submit">
-            Sign in
-          </button>
-          <div >
-            <p>
-              Not a member? <Link to="/register">Register</Link>
-            </p>
-          </div>
-        </form>
+            <div className="form-outline mb-4">
+              <label htmlFor="password">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  maxLength={15}
+                />
+              </label>
+            </div>
+            <div className="row mb-4">
+              <div className="col">
+                <a href="#!">Forgot password?</a>
+              </div>
+            </div>
+            <button type="submit">Sign in</button>
+            <div>
+              <p>
+                Not a member? <Link to="/register">Register</Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

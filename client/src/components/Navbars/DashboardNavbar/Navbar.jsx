@@ -1,33 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import useLogout from "../../../hooks/useLogout";
+import { Link, NavLink } from "react-router-dom";
 import styles from "./navbar.module.scss";
+import '../../_variables.scss';
+import bugTrackerLogo from "../../../images/bug-tracker-logo-black.png";
 
 const Navbar = () => {
-  const { username, team } = useSelector((state) => state.user);
-
-  const logout = useLogout();
-  const navigate = useNavigate();
-
-  const signOut = async () => {
-    await logout();
-    navigate("/team/login");
-  };
   return (
     <nav className={styles.nav}>
-      <Link to="/dashboard">
-        <h2 className={styles.title}>Bug - Tracker</h2>
+      <Link to="/">
+            <div className={styles.logoContainer}>
+              <img src={bugTrackerLogo} alt="logo" />
+            </div>
       </Link>
       <ul className={styles.navLinks}>
         <li>
-          <Link to="/dashboard">Projects</Link>
+          <NavLink to="/dashboard">Projects</NavLink>
         </li>
         <li>
-          <Link to="/tickets">Tickets</Link>
+          <NavLink to="/tickets">Tickets</NavLink>
         </li>
         <li>
-          <Link to="/account"> Manage Account</Link>
+          <NavLink to="/account">Account</NavLink>
         </li>
       </ul>
     </nav>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard/Dashboard";
-import LandingPage from "./components/LandingPage/LandingPage";
+import LandingPage from "./components/LandingPage/LandingPage/LandingPage";
 import LoginTeam from "./components/Login/LoginTeam";
 import LoginUser from "./components/Login/LoginUser";
 import ManageAccount from "./components/ManageAccount/ManageAccount";
@@ -23,7 +23,7 @@ function App() {
         flexDirection: "column",
         minHeight: "100vh",
         height: "100%",
-        background: "#1C1C1C",
+        background: "#FEFEFE",
       }}
     >
       <AuthProvider>
@@ -48,9 +48,9 @@ function App() {
             </Route>
 
             {/* PUBLIC ROUTES */}
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/team/register" element={<RegisterTeam />} />
-              <Route path="/team/login" element={<LoginTeam />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/team/register" element={<RegisterTeam />} />
+            <Route path="/team/login" element={<LoginTeam />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

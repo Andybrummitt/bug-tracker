@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import { AuthContext } from "../../context/AuthProvider";
 import useAxiosWithAuth from "../../hooks/useAxiosWithAuth";
 import CreateTicket from "../CreateTicket/CreateTicket";
+import Navbar from "../Navbars/DashboardNavbar/Navbar";
 import TablePaginationNav from "../TablePaginationNav/TablePaginationNav";
 import TicketsTable from "../TicketsTable/TicketsTable";
-import PropagateLoader from "react-spinners/PropagateLoader";
 import styles from "./project.module.scss";
 
 const Project = () => {
@@ -19,7 +20,7 @@ const Project = () => {
     priority: "Medium",
   });
   const [error, setError] = useState("");
-  const [ successMessage, setSuccessMessage ] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [ticketsInView, setTicketsInView] = useState([]);
@@ -73,10 +74,10 @@ const Project = () => {
     })
       .then((res) => setTickets(res.data))
       .catch((err) => {
-        if(err.response.status === 404){
-          navigate('/error/404')
+        if (err.response.status === 404) {
+          navigate("/error/404");
         }
-        setError(err.message)
+        setError(err.message);
       })
       .finally(() => setLoading(false));
   };
@@ -85,9 +86,11 @@ const Project = () => {
     e.preventDefault();
     setSuccessMessage("");
     setError("");
-    if(tickets.length > 29) return setError("Projects can only have up to 30 tickets at a time.")
+    if (tickets.length > 29)
+      return setError("Projects can only have up to 30 tickets at a time.");
     const { title, description, type, priority } = newTicket;
-    if (!title || !description || !type || !priority) return setError("Please fill in all required fields");
+    if (!title || !description || !type || !priority)
+      return setError("Please fill in all required fields");
     apiCall({
       url: `/api/tickets/${params.projectName}`,
       method: `post`,
@@ -99,7 +102,6 @@ const Project = () => {
     })
       .then((res) => {
         const ticketData = res.data;
-        console.log(res.data);
         setNewTicket({
           title: "",
           description: "",
@@ -107,7 +109,7 @@ const Project = () => {
           priority: "Medium",
         });
         setTickets([...tickets, ticketData]);
-        setSuccessMessage("Ticket created.")
+        setSuccessMessage("Ticket created.");
       })
       .catch((err) => {
         setError(err.message);
@@ -115,39 +117,44 @@ const Project = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className="text-center m-3 mb-4">{decodeURI(
-        params.projectName
-      )}</h2>
-      {pageNumberArray.length > 0 ? (
-        <>
-          <h4 className="text-center m-3">Project Tickets</h4>
-          <TablePaginationNav
-            pageNumberArray={pageNumberArray}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
-      ) : null}
-      {ticketsInView.length < 1 && loading === false ? (
-        <p className="text-center m-3">
-          This project does not have any tickets at the moment
-        </p>
-      ) : ticketsInView.length < 1 && loading === true ? (
-        <div className="text-center m-3">
-          <PropagateLoader />
-        </div>
-      ) : (
-        <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
-      )}
-      <p className="text-danger text-center m-3">{error}</p>
-      <p className="text-success text-center m-3">{successMessage}</p>
-      <CreateTicket
-        newTicket={newTicket}
-        setNewTicket={setNewTicket}
-        handleSubmit={handleSubmit}
-      />
-    </div>
+    <main>
+      <header>
+        <Navbar />
+      </header>
+      <div className={styles.container}>
+        <h2 className="text-center-padded">{decodeURI(params.projectName)}</h2>
+        {pageNumberArray.length > 0 ? (
+          <>
+            <h4 className="text-center-padded">Project Tickets</h4>
+            <TablePaginationNav
+              pageNumberArray={pageNumberArray}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </>
+        ) : null}
+        {ticketsInView.length < 1 && loading === false ? (
+          <p className="text-center-padded">
+            This project does not have any tickets at the moment
+          </p>
+        ) : ticketsInView.length < 1 && loading === true ? (
+          <div className="text-center-padded">
+            <PropagateLoader />
+          </div>
+        ) : (
+          <TicketsTable ticketsInView={ticketsInView} setTickets={setTickets} />
+        )}
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && (
+          <p className="text-center-padded">{successMessage}</p>
+        )}
+        <CreateTicket
+          newTicket={newTicket}
+          setNewTicket={setNewTicket}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+    </main>
   );
 };
 

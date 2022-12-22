@@ -26,7 +26,6 @@ const TicketGraphDisplay = () => {
         setError("");
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
