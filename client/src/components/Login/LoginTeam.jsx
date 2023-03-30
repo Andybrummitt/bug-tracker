@@ -24,7 +24,7 @@ const LoginTeam = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [])
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,6 +55,11 @@ const LoginTeam = () => {
           <h1 className={styles.title}>Team Login</h1>
           {error && <p className={styles.errorMessage}>{error}</p>}
           <form onSubmit={handleSubmit}>
+            <div>
+              <h4>Demo Team Login:</h4>
+              <p>Username: DemoTeam</p>
+              <p>Password: 123456</p>
+            </div>
             <div>
               <label htmlFor="teamname">
                 <input

@@ -20,10 +20,10 @@ const PublicNavbar = () => {
           {location.pathname === "/" ? (
             <div className={styles.authLinks}>
               <button>
-                <Link to="/team/register">SIGN UP</Link>
+                <Link to="/team/register">Sign Up</Link>
               </button>
               <button>
-                <Link to="/team/login">LOG IN</Link>
+                <Link to="/team/login">Log In</Link>
               </button>
             </div>
           ) : null}

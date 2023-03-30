@@ -1,60 +1,59 @@
 @import "../../variables";
 
 .logoContainer {
-    img {
-        height: 40px;
-        width: auto;
-    }
+  img {
+    height: 40px;
+    width: auto;
+  }
 }
 
 .nav {
-    border-bottom: 0.1rem solid $accent;
-    ul {
-        margin: 0.5rem;
-        height: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  border-bottom: 0.1rem solid $theme-light;
+  ul {
+    margin: 0.5rem;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .authLinks {
+    display: flex;
+    justify-content: space-around;
+    button {
+      padding: 0.5rem;
+      width: 6rem;
+      background: linear-gradient($theme-light, $theme-darker);
+      border-radius: 1rem;
+      border: none;
+      a {
+        color: white;
+        text-decoration: none;
+      }
     }
-    .authLinks {
-        display: flex;
-        justify-content: space-around;
-        button {
-            padding: 0.25rem;
-            background: transparent;
-            border: 1px solid $accent;
-            border-radius: 0;
-            a {
-                color: $accent;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-        }
-    }
-    button:first-child {
-        margin-right: 1rem;
-    }
+  }
+  button:first-child {
+    margin-right: 1rem;
+  }
 }
 
-@media screen and (min-width: 768px){
-    .nav {
-        font-size: 1.2rem;
-        margin: 1rem;
+@media screen and (min-width: 768px) {
+  .nav {
+    font-size: 1.2rem;
+    margin: 1rem;
 
-        button:first-child {
-            margin-right: 2rem;
-        }
+    button:first-child {
+      margin-right: 2rem;
     }
-    .authLinks {
-        button {
-            font-size: 1.2rem;
-        }
+  }
+  .authLinks {
+    button {
+      font-size: 1.2rem;
     }
-    .logoContainer {
-        img {
-            height: 60px;
-            width: auto;
-        }
+  }
+  .logoContainer {
+    img {
+      height: 60px;
+      width: auto;
     }
+  }
 }

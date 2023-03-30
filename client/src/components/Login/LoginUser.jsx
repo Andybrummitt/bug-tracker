@@ -56,6 +56,11 @@ const LoginUser = () => {
           {error && <p className={styles.errorMessage}>{error}</p>}
           <form onSubmit={handleSubmit}>
             <div>
+              <h4>Demo User Login:</h4>
+              <p>Username: DemoUser</p>
+              <p>Password: 123456</p>
+            </div>
+            <div>
               <label htmlFor="username">
                 <input
                   ref={inputRef}
