@@ -49,12 +49,6 @@ const LandingPage = () => {
               Watch Short Demo
             </button>
         </section>
-        {/* <p className={styles.imageRights}>
-          <a href="https://www.freepik.com/free-vector/isometric-time-management-concept-illustrated_12281499.htm#query=organized&position=24&from_view=search&track=sph">
-            Image by pikisuperstar
-          </a>{" "}
-          on Freepik
-        </p> */}
       </main>
     </div>
   );
