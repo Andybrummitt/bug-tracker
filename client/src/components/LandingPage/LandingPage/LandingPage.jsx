@@ -45,9 +45,9 @@ const LandingPage = () => {
               <img src={secure} alt="security illustration" />
             </article>
           </div>
-            <button className={styles.cta} onClick={() => setModalOpen(true)}>
-              Watch Short Demo
-            </button>
+          <button className={styles.cta} onClick={() => setModalOpen(true)}>
+            Watch Short Demo
+          </button>
         </section>
       </main>
     </div>
